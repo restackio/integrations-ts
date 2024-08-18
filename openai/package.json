@@ -28,8 +28,8 @@
       "types": "./dist/taskQueue.d.ts"
     },
   "./functions": {
-      "import": "./dist/functions/*",
-      "require": "./dist/functions/*",
-      "types": "./dist/functions/*"
+      "import": "./dist/functions/index.js",
+      "require": "./dist/functions/index.js",
+      "types": "./dist/functions/index.ts"
     }
 }
