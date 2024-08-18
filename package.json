@@ -1,6 +1,7 @@
 {
   "name": "@restackio/restack-sdk-integrations",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "build": "pnpm -r run build"
   },

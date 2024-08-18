@@ -1,6 +1,7 @@
 {
   "name": "@restackio/restack-sdk-integrations-openai",
   "main": "dist/service.js",
+  "type": "module",
   "scripts": {
     "build": "tsc"
   },
