@@ -2,7 +2,10 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./"
+    "rootDir": "./",
+    "paths": {
+      "openai": ["node_modules/openai"]
+    }
   },
   "include": ["**/*"]
 }

@@ -22,9 +22,14 @@
       "require": "./dist/service.js",
       "types": "./dist/service.d.ts"
     },
-  "./*": {
-      "import": "./dist/*",
-      "require": "./dist/*",
-      "types": "./dist/*"
+  "./taskQueue": {
+      "import": "./dist/taskQueue.js",
+      "require": "./dist/taskQueue.js",
+      "types": "./dist/taskQueue.d.ts"
+    },
+  "./functions": {
+      "import": "./dist/functions/*",
+      "require": "./dist/functions/*",
+      "types": "./dist/functions/*"
     }
 }
