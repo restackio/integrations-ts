@@ -1,4 +1,4 @@
-import Restack, { Worker } from "@restackio/restack-sdk-ts";
+import Restack, { type Worker } from "@restackio/restack-sdk-ts";
 import { openaiChatCompletion } from "./functions";
 import { openaiTaskQueue } from "./taskQueue";
 
