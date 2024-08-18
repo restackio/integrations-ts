@@ -18,13 +18,14 @@ jobs:
         with:
           node-version: 20
           registry-url: "https://registry.npmjs.org"
-      - run: npm install
+      - run: npm install -g pnpm
+      - run: pnpm install
         working-directory: ./
-      - run: npm run build
+      - run: pnpm -r run build
         working-directory: ./
-      - run: npm version patch
+      - run: pnpm version patch
         working-directory: ./
-      - run: npm publish --access public
+      - run: pnpm publish --access public
         working-directory: ./
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
