@@ -31,5 +31,8 @@
       "import": "./dist/functions/index.js",
       "require": "./dist/functions/index.js",
       "types": "./dist/functions/index.ts"
-    }
+    },
+  "files": [
+    "dist/"
+  ]
 }

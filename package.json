@@ -1,11 +1,14 @@
 {
   "name": "@restackio/restack-sdk-integrations",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "scripts": {
     "build": "pnpm -r run build",
     "dev": "pnpm -r run dev"
   },
   "devDependencies": {
     "typescript": "^4.0.0"
-  }
+  },
+  "files": [
+    "**/dist"
+  ]
 }
