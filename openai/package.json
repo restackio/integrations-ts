@@ -13,19 +13,21 @@
     "nodemon": "^2.0.12",
     "ts-node": "^10.9.2"
   },
-  ".": {
-      "import": "./dist/service.js",
-      "require": "./dist/service.js",
-      "types": "./dist/service.d.ts"
-    },
-  "./taskQueue": {
-      "import": "./dist/taskQueue.js",
-      "require": "./dist/taskQueue.js",
-      "types": "./dist/taskQueue.d.ts"
-    },
-  "./functions": {
-      "import": "./dist/functions/index.js",
-      "require": "./dist/functions/index.js",
-      "types": "./dist/functions/index.ts"
-    }
+  "exports": {
+    ".": {
+        "import": "./dist/service.js",
+        "require": "./dist/service.js",
+        "types": "./dist/service.d.ts"
+      },
+    "./taskQueue": {
+        "import": "./dist/taskQueue.js",
+        "require": "./dist/taskQueue.js",
+        "types": "./dist/taskQueue.d.ts"
+      },
+    "./functions": {
+        "import": "./dist/functions/index.js",
+        "require": "./dist/functions/index.js",
+        "types": "./dist/functions/index.ts"
+      }
+  }
 }
