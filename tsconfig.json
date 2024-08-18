@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./",
     "target": "ES6",
     "module": "Node16",
     "declaration": true,
     "esModuleInterop": true,
     "moduleResolution": "node16",
-    "outDir": "./dist",
-    "strict": true,
-    "rootDir": "./",
     "baseUrl": ".",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "composite": true
+    "composite": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"]
