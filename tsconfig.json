@@ -8,17 +8,9 @@
     "esModuleInterop": true,
     "moduleResolution": "node16",
     "baseUrl": ".",
-    "paths": {
-      "@restackio/restack-sdk-integrations/*": ["node_modules/@restackio/restack-sdk-integrations/*"]
-    },
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "composite": true,
     "allowSyntheticDefaultImports": true
   },
-  "paths": {
-     "@restackio/restack-sdk-integrations/*": ["./*"]
-   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
