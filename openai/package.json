@@ -16,5 +16,15 @@
     "typescript": "^4.9.5",
     "nodemon": "^2.0.12",
     "ts-node": "^10.9.2"
-  }
+  },
+  ".": {
+      "import": "./dist/service.js",
+      "require": "./dist/service.js",
+      "types": "./dist/service.d.ts"
+    },
+  "./*": {
+      "import": "./dist/*",
+      "require": "./dist/*",
+      "types": "./dist/*"
+    }
 }
