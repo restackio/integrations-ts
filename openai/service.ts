@@ -1,8 +1,8 @@
-import Restack, { type Worker } from "@restackio/restack-sdk-ts";
+import Restack from "@restackio/restack-sdk-ts";
 import { openaiChatCompletion } from "./functions";
 import { openaiTaskQueue } from "./taskQueue";
 
-export async function openaiWorker() {
+export async function openaiService() {
   function calculateRpmToSecond(openaiRpm: number): number {
     // RPD limit https://platform.openai.com/account/limits
     const secondsInAMinute: number = 60;
@@ -10,10 +10,13 @@ export async function openaiWorker() {
   }
   const restack = new Restack();
 
-  const worker: Worker = await restack.createWorker({
+  await restack.startService({
     taskQueue: openaiTaskQueue,
     functions: { openaiChatCompletion },
     rateLimit: calculateRpmToSecond(5000),
   });
-  return worker;
 }
+
+openaiService().catch((err) => {
+  console.error("Error in main:", err);
+});
