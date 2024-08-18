@@ -1,14 +1,21 @@
 {
   "name": "@restackio/restack-sdk-integrations",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "scripts": {
     "build": "pnpm -r run build",
     "dev": "pnpm -r run dev"
+  },
+  "workspaces": [
+    "*"
+  ],
+  "dependencies": {
+    "openai": "^4.56.0",
+    "@restackio/restack-sdk-ts": "^0.0.48"
   },
   "devDependencies": {
     "typescript": "^4.0.0"
   },
   "files": [
-    "**/dist"
+    "*/dist"
   ]
 }
