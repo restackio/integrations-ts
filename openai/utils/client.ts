@@ -1,7 +1,12 @@
 import OpenAI from "openai/index";
 
+let openaiInstance: OpenAI | null = null;
+
 export const openaiClient = ({ apiKey }: { apiKey: string }): OpenAI => {
-  return new OpenAI({
-    apiKey,
-  });
+  if (!openaiInstance) {
+    openaiInstance = new OpenAI({
+      apiKey,
+    });
+  }
+  return openaiInstance;
 };

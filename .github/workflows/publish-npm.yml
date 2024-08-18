@@ -24,9 +24,9 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
         working-directory: ./
-      - run: pnpm build
+      - run: pnpm -r --filter "./**" --filter "\!./" build
         working-directory: ./
-      - run: pnpm publish --access public
+      - run: pnpm -r --filter "./**" --filter "\!./" publish --access public
         working-directory: ./
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

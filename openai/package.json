@@ -1,5 +1,6 @@
 {
-  "name": "@restackio/restack-sdk-integrations-openai",
+  "name": "@restackio/integrations-openai",
+  "version": "0.0.1",
   "main": "dist/service.js",
   "types": "dist/service.d.ts",
   "scripts": {
@@ -8,11 +9,13 @@
     "clean": "rm -rf dist",
     "build": "npm run clean && tsc"
   },
-  "devDependencies": {
-    "typescript": "^4.9.5",
-    "nodemon": "^2.0.12",
-    "ts-node": "^10.9.2"
+  "dependencies": {
+    "openai": "^4.56.0"
+    
   },
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
         "import": "./dist/service.js",
@@ -28,6 +31,11 @@
         "import": "./dist/functions/index.js",
         "require": "./dist/functions/index.js",
         "types": "./dist/functions/index.ts"
+      },
+    "./workflows": {
+        "import": "./dist/workflows/index.js",
+        "require": "./dist/workflows/index.js",
+        "types": "./dist/workflows/index.ts"
       }
   }
 }

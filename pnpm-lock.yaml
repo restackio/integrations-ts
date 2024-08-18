@@ -11,15 +11,6 @@ importers:
       '@restackio/restack-sdk-ts':
         specifier: ^0.0.48
         version: 0.0.48
-      openai:
-        specifier: ^4.56.0
-        version: 4.56.0
-    devDependencies:
-      typescript:
-        specifier: ^4.0.0
-        version: 4.9.5
-
-  openai:
     devDependencies:
       nodemon:
         specifier: ^2.0.12
@@ -30,6 +21,12 @@ importers:
       typescript:
         specifier: ^4.9.5
         version: 4.9.5
+
+  openai:
+    dependencies:
+      openai:
+        specifier: ^4.56.0
+        version: 4.56.0
 
 packages:
 
@@ -1145,7 +1142,7 @@ snapshots:
 
   '@types/node-fetch@2.6.11':
     dependencies:
-      '@types/node': 18.19.44
+      '@types/node': 22.4.0
       form-data: 4.0.0
 
   '@types/node@18.19.44':

@@ -1,21 +1,16 @@
 {
-  "name": "@restackio/restack-sdk-integrations",
-  "version": "0.0.19",
+  "name": "@restackio/integrations",
   "scripts": {
     "build": "pnpm -r run build",
-    "dev": "pnpm -r run dev"
+    "dev": "pnpm -r run dev",
+    "publish-test": "pnpm -r --filter \"./**\" --filter \"!./\" publish --access public --dry-run --no-git-checks --report-summary"
   },
-  "workspaces": [
-    "*"
-  ],
   "dependencies": {
-    "openai": "^4.56.0",
     "@restackio/restack-sdk-ts": "^0.0.48"
   },
   "devDependencies": {
-    "typescript": "^4.0.0"
-  },
-  "files": [
-    "*/dist"
-  ]
+    "typescript": "^4.9.5",
+    "nodemon": "^2.0.12",
+    "ts-node": "^10.9.2"
+  }
 }
