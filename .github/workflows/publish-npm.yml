@@ -14,18 +14,21 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
       - uses: actions/setup-node@v2
         with:
           node-version: 20
           registry-url: "https://registry.npmjs.org"
-      - run: npm install -g pnpm
+          cache: "pnpm"
       - run: pnpm install
         working-directory: ./
-      - run: pnpm -r run build
+      - run: pnpm build
         working-directory: ./
-      - run: npm version patch
+      - run: pnpm patch
         working-directory: ./
-      - run: npm publish --access public
+      - run: pnpm publish --access public
         working-directory: ./
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
