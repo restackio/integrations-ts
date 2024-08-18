@@ -2,7 +2,6 @@
   "name": "@restackio/restack-sdk-integrations-openai",
   "main": "dist/service.js",
   "types": "dist/service.d.ts",
-  "type": "commonjs",
   "files": [
     "dist"
   ],
