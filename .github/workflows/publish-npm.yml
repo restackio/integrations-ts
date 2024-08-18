@@ -26,8 +26,6 @@ jobs:
         working-directory: ./
       - run: pnpm build
         working-directory: ./
-      - run: pnpm patch
-        working-directory: ./
       - run: pnpm publish --access public
         working-directory: ./
         env:
