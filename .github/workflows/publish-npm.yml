@@ -23,9 +23,9 @@ jobs:
         working-directory: ./
       - run: pnpm -r run build
         working-directory: ./
-      - run: pnpm version patch
+      - run: npm version patch
         working-directory: ./
-      - run: pnpm publish --access public
+      - run: npm publish --access public
         working-directory: ./
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
