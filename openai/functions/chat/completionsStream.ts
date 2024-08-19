@@ -12,6 +12,19 @@ import { SendWorkflowEvent } from "@restackio/restack-sdk-ts/event";
 import { openaiClient } from "../../utils/client";
 import { openaiCost, Price } from "../../utils/cost";
 
+export type StreamEvent = {
+  response: string;
+  isLast: boolean;
+};
+
+export type ToolCallEvent =
+  OpenAI.Chat.Completions.ChatCompletionChunk.Choice.Delta.ToolCall & {
+    function: {
+      name: string;
+      input: JSON;
+    };
+  };
+
 export async function openaiChatCompletionsStream({
   newMessage,
   messages = [],
@@ -69,10 +82,21 @@ export async function openaiChatCompletionsStream({
       await Promise.all(
         toolCalls.map((toolCall) => {
           if (toolEvent) {
+            const functionArguments = JSON.parse(
+              toolCall.function?.arguments ?? ""
+            );
+
+            const input: ToolCallEvent = {
+              ...toolCall,
+              function: {
+                name: toolCall.function?.name,
+                input: functionArguments,
+              },
+            };
             const workflowEvent = {
               ...workflow,
               ...toolEvent,
-              input: JSON.parse(toolCall.function?.arguments ?? ""),
+              input,
             };
             log.debug("toolEvent sendWorkflowEvent", { workflowEvent });
             if (streamEvent) {
@@ -88,13 +112,14 @@ export async function openaiChatCompletionsStream({
         finishReason === "stop"
       ) {
         if (response.length) {
+          const input: StreamEvent = {
+            response,
+            isLast: finishReason === "stop",
+          };
           const workflowEvent = {
             ...workflow,
             ...streamEvent,
-            input: {
-              response: response,
-              isLast: finishReason === "stop",
-            },
+            input,
           };
           log.debug("streamEvent sendWorkflowEvent", { workflowEvent });
           if (streamEvent) {

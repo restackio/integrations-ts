@@ -10,12 +10,21 @@ import {
   WorkflowEvent,
 } from "@restackio/restack-sdk-ts/event";
 
-type WebsocketEvent = WorkflowEvent & {
-  name: string;
-  input: {
+export type WebsocketEvent = {
+  streamSid: string;
+  media?: {
+    track: string;
+    payload: string;
+  };
+  data?: {
     track: string;
     [key: string]: any;
   };
+};
+
+export type SendWebsocketEvent = WorkflowEvent & {
+  name: string;
+  input: WebsocketEvent;
 };
 
 export async function websocketListen({
@@ -51,16 +60,18 @@ export async function websocketListen({
               if (!cleanedPayload) {
                 return;
               }
+
+              const input: WebsocketEvent = {
+                streamSid: message.streamSid,
+                media: {
+                  track: mediaEvent.event.input.track,
+                  payload: cleanedPayload,
+                },
+              };
               const workflowEvent = {
                 ...workflow,
                 ...mediaEvent,
-                input: {
-                  streamSid,
-                  payload: {
-                    ...message.media.payload,
-                    track: mediaEvent.event.input.track,
-                  },
-                },
+                input,
               };
               log.debug("mediaEvent sendWorkflowEvent", { workflowEvent });
 
@@ -71,16 +82,17 @@ export async function websocketListen({
         if (dataEvents) {
           dataEvents.forEach((dataEvent) => {
             if (message.event === dataEvent.event.name) {
+              const input: WebsocketEvent = {
+                streamSid: message.streamSid,
+                data: {
+                  ...message.data,
+                  track: dataEvent.event.input.track,
+                },
+              };
               const workflowEvent = {
                 ...workflow,
                 ...dataEvent,
-                input: {
-                  streamSid,
-                  data: {
-                    ...message.data,
-                    track: dataEvent.event.input.track,
-                  },
-                },
+                input,
               };
               log.debug("dataEvent sendWorkflowEvent", { workflowEvent });
 
@@ -90,9 +102,13 @@ export async function websocketListen({
         }
         heartbeat(message.streamSid);
         if (message.event === "stop") {
+          const input: WebsocketEvent = {
+            streamSid: message.streamSid,
+          };
           const workflowEvent = {
             ...workflow,
             ...stopEvent,
+            input,
           };
           log.debug("stopEvent sendWorkflowEvent", { workflowEvent });
 

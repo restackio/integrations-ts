@@ -1,29 +1,22 @@
 import { websocketConnect } from "../utils/client";
+import { WebsocketEvent } from "./listen";
 
 export async function websocketSend({
-  streamSid,
-  eventName,
-  data,
-  media,
+  name,
+  input,
   address,
 }: {
-  streamSid: string;
-  eventName: string;
-  data?: {
-    track: string;
-    [key: string]: any;
-  };
-  media?: {
-    track: string;
-    payload: string;
-  };
+  name: string;
+  input: WebsocketEvent;
   address?: string;
 }) {
   const ws = await websocketConnect({ address });
 
+  const { streamSid, data, media } = input;
+
   const event = {
-    streamSid: streamSid,
-    event: eventName,
+    streamSid,
+    event: name,
     data,
     media,
   };
