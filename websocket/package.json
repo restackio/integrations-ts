@@ -1,6 +1,6 @@
 {
   "name": "@restackio/integrations-websocket",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist/service.js",
   "types": "dist/service.d.ts",
   "scripts": {
@@ -35,6 +35,11 @@
       "import": "./dist/workflows/index.js",
       "require": "./dist/workflows/index.js",
       "types": "./dist/workflows/index.ts"
+    },
+    "./types": {
+      "import": "./dist/types/index.js",
+      "require": "./dist/types/index.js",
+      "types": "./dist/types/index.ts"
     }
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
+import { WebsocketEvent } from "websocket/types";
 import { websocketConnect } from "../utils/client";
-import { WebsocketEvent } from "./listen";
 
 export async function websocketSend({
   name,

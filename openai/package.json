@@ -1,6 +1,6 @@
 {
   "name": "@restackio/integrations-openai",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/service.js",
   "types": "dist/service.d.ts",
   "scripts": {
@@ -20,21 +20,26 @@
         "import": "./dist/service.js",
         "require": "./dist/service.js",
         "types": "./dist/service.d.ts"
-      },
+    },
     "./taskQueue": {
         "import": "./dist/taskQueue.js",
         "require": "./dist/taskQueue.js",
         "types": "./dist/taskQueue.d.ts"
-      },
+    },
     "./functions": {
         "import": "./dist/functions/index.js",
         "require": "./dist/functions/index.js",
         "types": "./dist/functions/index.ts"
-      },
+    },
     "./workflows": {
         "import": "./dist/workflows/index.js",
         "require": "./dist/workflows/index.js",
         "types": "./dist/workflows/index.ts"
-      }
+    },
+    "./types": {
+      "import": "./dist/types/index.js",
+      "require": "./dist/types/index.js",
+      "types": "./dist/types/index.ts"
+    }
   }
 }

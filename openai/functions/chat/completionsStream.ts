@@ -1,46 +1,32 @@
 import OpenAI from "openai/index";
+import { ChatCompletionChunk } from "openai/resources/chat/completions.mjs";
 
+import Restack from "@restackio/restack-sdk-ts";
 import { currentWorkflow, log } from "@restackio/restack-sdk-ts/function";
 
-import { ChatCompletionChunk } from "openai/resources/chat/completions.mjs";
+import { StreamEvent, ToolCallEvent } from "../../types/events";
 
 import { aggregateStreamChunks } from "../../utils/aggregateStream";
 import { mergeToolCalls } from "../../utils/mergeToolCalls";
-
-import Restack from "@restackio/restack-sdk-ts";
-import { SendWorkflowEvent } from "@restackio/restack-sdk-ts/event";
 import { openaiClient } from "../../utils/client";
 import { openaiCost, Price } from "../../utils/cost";
-
-export type StreamEvent = {
-  response: string;
-  isLast: boolean;
-};
-
-export type ToolCallEvent =
-  OpenAI.Chat.Completions.ChatCompletionChunk.Choice.Delta.ToolCall & {
-    function: {
-      name: string;
-      input: JSON;
-    };
-  };
 
 export async function openaiChatCompletionsStream({
   newMessage,
   messages = [],
   tools,
-  toolEvent,
+  toolEventName,
   streamAtCharacter,
-  streamEvent,
+  streamEventName,
   apiKey,
   price,
 }: {
   newMessage?: string;
   messages?: OpenAI.Chat.Completions.ChatCompletionMessageParam[];
   tools?: OpenAI.Chat.Completions.ChatCompletionTool[];
-  toolEvent?: SendWorkflowEvent;
+  toolEventName?: string;
   streamAtCharacter?: string;
-  streamEvent?: SendWorkflowEvent;
+  streamEventName?: string;
   apiKey?: string;
   price?: Price;
 }) {
@@ -81,7 +67,7 @@ export async function openaiChatCompletionsStream({
       const { toolCalls } = mergeToolCalls(aggregatedStream);
       await Promise.all(
         toolCalls.map((toolCall) => {
-          if (toolEvent) {
+          if (toolEventName) {
             const functionArguments = JSON.parse(
               toolCall.function?.arguments ?? ""
             );
@@ -95,11 +81,13 @@ export async function openaiChatCompletionsStream({
             };
             const workflowEvent = {
               ...workflow,
-              ...toolEvent,
-              input,
+              event: {
+                name: toolEventName,
+                input,
+              },
             };
             log.debug("toolEvent sendWorkflowEvent", { workflowEvent });
-            if (streamEvent) {
+            if (toolEventName) {
               restack.sendWorkflowEvent(workflowEvent);
             }
           }
@@ -118,11 +106,13 @@ export async function openaiChatCompletionsStream({
           };
           const workflowEvent = {
             ...workflow,
-            ...streamEvent,
-            input,
+            event: {
+              name: streamEventName,
+              input,
+            },
           };
           log.debug("streamEvent sendWorkflowEvent", { workflowEvent });
-          if (streamEvent) {
+          if (streamEventName) {
             restack.sendWorkflowEvent(workflowEvent);
           }
         }

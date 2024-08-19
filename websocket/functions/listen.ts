@@ -1,43 +1,23 @@
+import Restack from "@restackio/restack-sdk-ts";
+import { SendWorkflowEvent } from "@restackio/restack-sdk-ts/event";
 import {
   heartbeat,
   currentWorkflow,
   log,
 } from "@restackio/restack-sdk-ts/function";
+
+import { WebsocketEvent } from "../types";
 import { websocketConnect } from "../utils/client";
-import Restack from "@restackio/restack-sdk-ts";
-import {
-  SendWorkflowEvent,
-  WorkflowEvent,
-} from "@restackio/restack-sdk-ts/event";
-
-export type WebsocketEvent = {
-  streamSid: string;
-  media?: {
-    track: string;
-    payload: string;
-  };
-  data?: {
-    track: string;
-    [key: string]: any;
-  };
-};
-
-export type SendWebsocketEvent = WorkflowEvent & {
-  name: string;
-  input: WebsocketEvent;
-};
 
 export async function websocketListen({
   streamSid,
-  mediaEvents,
-  dataEvents,
-  stopEvent,
+  track,
+  listenFor,
   address,
 }: {
   streamSid: string;
-  mediaEvents?: (SendWorkflowEvent & { event: WebsocketEvent })[];
-  dataEvents?: (SendWorkflowEvent & { event: WebsocketEvent })[];
-  stopEvent: SendWorkflowEvent & { event: WebsocketEvent };
+  track: string;
+  listenFor?: string[];
   address?: string;
 }) {
   return new Promise<void>(async (resolve) => {
@@ -49,68 +29,73 @@ export async function websocketListen({
     ws.on("message", (data) => {
       const message = JSON.parse(data.toString());
       if (message.streamSid === streamSid) {
-        if (message.event === "media" && mediaEvents) {
-          mediaEvents.forEach((mediaEvent) => {
-            if (message.media.track === mediaEvent.event.input.track) {
-              // Clean Twilio empty noise
-              const cleanedPayload = message.media.payload?.replace(
-                /(\+\/[a-zA-Z0-9+\/]{2,}==)/g,
-                ""
-              );
-              if (!cleanedPayload) {
-                return;
-              }
-
-              const input: WebsocketEvent = {
-                streamSid: message.streamSid,
-                media: {
-                  track: mediaEvent.event.input.track,
-                  payload: cleanedPayload,
-                },
-              };
-              const workflowEvent = {
-                ...workflow,
-                ...mediaEvent,
-                input,
-              };
-              log.debug("mediaEvent sendWorkflowEvent", { workflowEvent });
-
-              restack.sendWorkflowEvent(workflowEvent);
+        if (message.event === "media" && listenFor?.includes("media")) {
+          if (message.media.track === track) {
+            // Clean Twilio empty noise
+            const cleanedPayload = message.media.payload?.replace(
+              /(\+\/[a-zA-Z0-9+\/]{2,}==)/g,
+              ""
+            );
+            if (!cleanedPayload) {
+              return;
             }
-          });
+
+            const input: WebsocketEvent = {
+              streamSid: message.streamSid,
+              media: {
+                track,
+                payload: cleanedPayload,
+              },
+            };
+            const workflowEvent: SendWorkflowEvent = {
+              ...workflow,
+              event: {
+                name: "media",
+                input,
+              },
+            };
+            log.debug("event media sendWorkflowEvent", { workflowEvent });
+
+            restack.sendWorkflowEvent(workflowEvent);
+          }
         }
-        if (dataEvents) {
-          dataEvents.forEach((dataEvent) => {
-            if (message.event === dataEvent.event.name) {
-              const input: WebsocketEvent = {
-                streamSid: message.streamSid,
-                data: {
-                  ...message.data,
-                  track: dataEvent.event.input.track,
-                },
-              };
-              const workflowEvent = {
-                ...workflow,
-                ...dataEvent,
-                input,
-              };
-              log.debug("dataEvent sendWorkflowEvent", { workflowEvent });
-
-              restack.sendWorkflowEvent(workflowEvent);
-            }
+        if (message.event === listenFor?.includes(message.event)) {
+          const input: WebsocketEvent = {
+            streamSid: message.streamSid,
+            data: {
+              ...message.data,
+              track,
+            },
+          };
+          const workflowEvent: SendWorkflowEvent = {
+            ...workflow,
+            event: {
+              name: message.event,
+              input,
+            },
+          };
+          log.debug(`event ${message.event} sendWorkflowEvent`, {
+            workflowEvent,
           });
+
+          restack.sendWorkflowEvent(workflowEvent);
         }
         heartbeat(message.streamSid);
         if (message.event === "stop") {
           const input: WebsocketEvent = {
             streamSid: message.streamSid,
+            data: {
+              track,
+            },
           };
-          const workflowEvent = {
+          const workflowEvent: SendWorkflowEvent = {
             ...workflow,
-            ...stopEvent,
-            input,
+            event: {
+              name: "stop",
+              input,
+            },
           };
-          log.debug("stopEvent sendWorkflowEvent", { workflowEvent });
+          log.debug("event stop sendWorkflowEvent", { workflowEvent });
 
           restack.sendWorkflowEvent(workflowEvent);
           resolve();
