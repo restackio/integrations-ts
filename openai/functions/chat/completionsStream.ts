@@ -170,7 +170,9 @@ export async function openaiChatCompletionsStream({
         messages.push(newMessage);
 
         return {
-          result: messages,
+          result: {
+            messages,
+          },
           cost:
             price &&
             openaiCost({
