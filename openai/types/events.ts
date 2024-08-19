@@ -11,4 +11,5 @@ export type ToolCallEvent =
       name: string;
       input: JSON;
     };
+    assistantName?: string;
   };
