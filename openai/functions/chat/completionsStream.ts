@@ -31,18 +31,20 @@ export async function openaiChatCompletionsStream({
   tools?: OpenAI.Chat.Completions.ChatCompletionTool[];
   toolEvent?: {
     workflowEventName: string;
-    workflow: SendWorkflowEvent["workflow"];
+    workflow?: SendWorkflowEvent["workflow"];
   };
   streamAtCharacter?: string;
   streamEvent?: {
     workflowEventName: string;
-    workflow: SendWorkflowEvent["workflow"];
+    workflow?: SendWorkflowEvent["workflow"];
   };
   apiKey?: string;
   price?: Price;
 }) {
   const restack = new Restack();
   const workflow = currentWorkflow().workflowExecution;
+
+  log.info("workflow", { workflow });
 
   if (newMessage) {
     messages.push({
@@ -95,16 +97,20 @@ export async function openaiChatCompletionsStream({
               },
               assistantName,
             };
-            const workflowEvent = {
-              ...workflow,
-              event: {
-                name: toolEvent.workflowEventName,
-                input,
-              },
-              ...toolEvent.workflow,
-            };
-            log.debug("toolEvent sendWorkflowEvent", { workflowEvent });
+
             if (toolEvent) {
+              const workflowEvent = {
+                event: {
+                  name: toolEvent.workflowEventName,
+                  input,
+                },
+                workflow: {
+                  ...workflow,
+                  ...toolEvent.workflow,
+                },
+              };
+              log.debug("toolEvent sendWorkflowEvent", { workflowEvent });
+
               restack.sendWorkflowEvent(workflowEvent);
             }
           }
@@ -122,16 +128,18 @@ export async function openaiChatCompletionsStream({
             response,
             isLast: finishReason === "stop",
           };
-          const workflowEvent = {
-            ...workflow,
-            event: {
-              name: streamEvent.workflowEventName,
-              input,
-            },
-            ...streamEvent.workflow,
-          };
-          log.debug("streamEvent sendWorkflowEvent", { workflowEvent });
           if (streamEvent) {
+            const workflowEvent = {
+              event: {
+                name: streamEvent.workflowEventName,
+                input,
+              },
+              workflow: {
+                ...workflow,
+                ...streamEvent.workflow,
+              },
+            };
+            log.debug("streamEvent sendWorkflowEvent", { workflowEvent });
             restack.sendWorkflowEvent(workflowEvent);
           }
         }
