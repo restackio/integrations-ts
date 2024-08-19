@@ -10,23 +10,30 @@ import { aggregateStreamChunks } from "../../utils/aggregateStream";
 import { mergeToolCalls } from "../../utils/mergeToolCalls";
 import { openaiClient } from "../../utils/client";
 import { openaiCost, Price } from "../../utils/cost";
+import { SendWorkflowEvent } from "@restackio/restack-sdk-ts/event";
 
 export async function openaiChatCompletionsStream({
   newMessage,
   messages = [],
   tools,
-  toolEventName,
+  toolEvent,
   streamAtCharacter,
-  streamEventName,
+  streamEvent,
   apiKey,
   price,
 }: {
   newMessage?: string;
   messages?: OpenAI.Chat.Completions.ChatCompletionMessageParam[];
   tools?: OpenAI.Chat.Completions.ChatCompletionTool[];
-  toolEventName?: string;
+  toolEvent?: {
+    workflowEventName: string;
+    workflow: SendWorkflowEvent["workflow"];
+  };
   streamAtCharacter?: string;
-  streamEventName?: string;
+  streamEvent?: {
+    workflowEventName: string;
+    workflow: SendWorkflowEvent["workflow"];
+  };
   apiKey?: string;
   price?: Price;
 }) {
@@ -67,7 +74,7 @@ export async function openaiChatCompletionsStream({
       const { toolCalls } = mergeToolCalls(aggregatedStream);
       await Promise.all(
         toolCalls.map((toolCall) => {
-          if (toolEventName) {
+          if (toolEvent) {
             const functionArguments = JSON.parse(
               toolCall.function?.arguments ?? ""
             );
@@ -82,12 +89,13 @@ export async function openaiChatCompletionsStream({
             const workflowEvent = {
               ...workflow,
               event: {
-                name: toolEventName,
+                name: toolEvent.workflowEventName,
                 input,
               },
+              ...toolEvent.workflow,
             };
             log.debug("toolEvent sendWorkflowEvent", { workflowEvent });
-            if (toolEventName) {
+            if (toolEvent) {
               restack.sendWorkflowEvent(workflowEvent);
             }
           }
@@ -107,12 +115,13 @@ export async function openaiChatCompletionsStream({
           const workflowEvent = {
             ...workflow,
             event: {
-              name: streamEventName,
+              name: streamEvent.workflowEventName,
               input,
             },
+            ...streamEvent.workflow,
           };
           log.debug("streamEvent sendWorkflowEvent", { workflowEvent });
-          if (streamEventName) {
+          if (streamEvent) {
             restack.sendWorkflowEvent(workflowEvent);
           }
         }
