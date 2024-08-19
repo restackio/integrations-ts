@@ -116,6 +116,21 @@ export async function openaiChatCompletionsStream({
           }
         })
       );
+      return {
+        result: {
+          messages,
+          toolCalls,
+        },
+        cost:
+          price &&
+          openaiCost({
+            price,
+            tokensCount: {
+              input: tokensCountInput,
+              output: tokensCountOutput,
+            },
+          }),
+      };
     } else {
       response += content;
       if (
