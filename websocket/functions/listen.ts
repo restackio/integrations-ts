@@ -31,17 +31,19 @@ export async function websocketListen({
       if (message.streamSid === streamSid) {
         if (events) {
           events.forEach((listenEvent) => {
-            if (message.event === listenEvent.workflowEventName) {
-              const workflowEvent = {
-                ...workflow,
-                ...listenEvent.workflow,
+            if (message.event === listenEvent.websocketEventName) {
+              const workflowEvent: SendWorkflowEvent = {
                 event: {
-                  name: listenEvent.websocketEventName,
+                  name: listenEvent.workflowEventName,
                   input: {
                     streamSid,
-                    ...message.data,
-                    ...message.payload,
+                    data: message.data,
+                    media: message.media,
                   },
+                },
+                workflow: {
+                  ...workflow,
+                  ...listenEvent.workflow,
                 },
               };
               log.debug(`${message.event} sendWorkflowEvent`, {

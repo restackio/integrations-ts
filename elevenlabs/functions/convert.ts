@@ -45,7 +45,11 @@ export async function elevenlabsConvert({
     log.info("Elevenlabs: ", {
       audioLength: base64String.length,
     });
-    return { audio: base64String };
+    return {
+      media: {
+        payload: base64String,
+      },
+    };
   } catch (error) {
     log.error("Elevenlabs convert error", { error });
     throw new Error(`Elevenlabs convert error ${error}`);

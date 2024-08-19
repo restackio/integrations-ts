@@ -47,7 +47,11 @@ export async function cartesiaTtsBytes({
     log.debug("Cartesia: ", {
       audioLength: base64String.length,
     });
-    return { audio: base64String };
+    return {
+      media: {
+        payload: base64String,
+      },
+    };
   } catch (error) {
     log.error("Cartesia send error", { error });
     throw new Error(`Cartesia send error ${error}`);

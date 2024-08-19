@@ -70,7 +70,11 @@ export async function deepgramSpeak({
     log.info("deepgramSpeak: ", {
       audioLength: base64String.length,
     });
-    return { audio: base64String };
+    return {
+      media: {
+        payload: base64String,
+      },
+    };
   } catch (error) {
     log.error("Deepgram TTS error", { error });
     throw new Error(`Deepgram TTS error ${error}`);

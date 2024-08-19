@@ -46,7 +46,11 @@ export async function azureSpeech({
             log.info("azureSpeech: ", {
               audioLength: base64String.length,
             });
-            resolve({ audio: base64String });
+            resolve({
+              media: {
+                payload: base64String,
+              },
+            });
           } else {
             log.error("Speech synthesis canceled", {
               errorDetails: result.errorDetails,

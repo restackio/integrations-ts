@@ -1,6 +1,6 @@
 {
   "name": "@restackio/integrations-cartesia",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/service.js",
   "types": "dist/service.d.ts",
   "scripts": {
