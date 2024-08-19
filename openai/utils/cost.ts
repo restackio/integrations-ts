@@ -1,36 +1,24 @@
-import { ChatCompletionCreateParamsBase } from "openai/resources/chat/completions";
-
-// https://openai.com/pricing as of 13/05/24
-
-interface ModelPrices {
-  inputPrice: number;
-  outputPrice: number;
-}
-
-type OpenAiModelName = ChatCompletionCreateParamsBase["model"];
-
-//@ts-ignore
-const modelPrices: Record<OpenAiModelName, ModelPrices> = {
-  "gpt-4o-mini-2024-07-18": {
-    inputPrice: 0.00000015,
-    outputPrice: 0.0000006,
-  },
+export type TokensCount = {
+  input: number;
+  output: number;
 };
 
+export type Price = {
+  input: number;
+  output: number;
+};
 export const openaiCost = ({
-  model,
-  tokensCountInput,
-  tokensCountOutput,
+  tokensCount,
+  price,
 }: {
-  model: OpenAiModelName;
-  tokensCountInput: number;
-  tokensCountOutput: number;
+  tokensCount: TokensCount;
+  price: Price;
 }): number => {
   let cost = 0;
-  if (model && modelPrices[model]) {
-    const { inputPrice, outputPrice } = modelPrices[model];
-    cost = tokensCountInput * inputPrice + tokensCountOutput * outputPrice;
-  }
+  const { input: inputTokens, output: outputTokens } = tokensCount;
+  const { input: inputPrice, output: outputPrice } = price;
+
+  cost = inputTokens * inputPrice + outputTokens * outputPrice;
 
   return cost;
 };

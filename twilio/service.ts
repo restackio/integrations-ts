@@ -18,6 +18,6 @@ export async function twilioService(
   });
 }
 
-twilioService({}).catch((err) => {
+twilioService().catch((err) => {
   console.error("Error service:", err);
 });

@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@restackio/restack-sdk-ts':
-        specifier: ^0.0.51
-        version: 0.0.51
+        specifier: ^0.0.52
+        version: 0.0.52
     devDependencies:
       nodemon:
         specifier: ^2.0.12
@@ -59,6 +59,19 @@ importers:
       twilio:
         specifier: ^5.2.2
         version: 5.2.2
+
+  websocket:
+    dependencies:
+      twilio:
+        specifier: ^5.2.2
+        version: 5.2.2
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.0
+    devDependencies:
+      '@types/ws':
+        specifier: ^8.5.12
+        version: 8.5.12
 
 packages:
 
@@ -170,8 +183,8 @@ packages:
   '@protobufjs/utf8@1.1.0':
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
 
-  '@restackio/restack-sdk-ts@0.0.51':
-    resolution: {integrity: sha512-EVQB12Bq4a311Gtd8yCIEIY/5bO0hemfhceKwom3lkGK5I+XwGc5f5k9SVDPUUBpBeXeQ8cFIwdZtTJF0wuPSw==}
+  '@restackio/restack-sdk-ts@0.0.52':
+    resolution: {integrity: sha512-NCdnjQKArXhfzmmS8fBWYL3FMbAFKoMb0wNhJ02+OKJRMD8eBv3o+ri0rcZZT6ocnEVfgwscVU2xkrCPDz+m/g==}
     engines: {node: '>=20'}
 
   '@swc/core-darwin-arm64@1.7.11':
@@ -306,6 +319,9 @@ packages:
 
   '@types/webrtc@0.0.37':
     resolution: {integrity: sha512-JGAJC/ZZDhcrrmepU4sPLQLIOIAgs5oIK+Ieq90K8fdaNMhfdfqmYatJdgif1NDQtvrSlTOGJDUYHIDunuufOg==}
+
+  '@types/ws@8.5.12':
+    resolution: {integrity: sha512-3tPRkv1EtkDpzlgyKyI8pGsGZAGPEaXeu0DOj5DI25Ja91bdAYddYHbADRYVrZMRbfW+1l5YwXVDKohDJNQxkQ==}
 
   '@webassemblyjs/ast@1.12.1':
     resolution: {integrity: sha512-EKfMUOPRRUTy5UII4qJDGPpqfwjOmZ5jeGFwid9mnoqIFK+e0vqoi1qH56JpmZSzEL53jKnNzScdmftJyG5xWg==}
@@ -1370,7 +1386,7 @@ snapshots:
 
   '@protobufjs/utf8@1.1.0': {}
 
-  '@restackio/restack-sdk-ts@0.0.51':
+  '@restackio/restack-sdk-ts@0.0.52':
     dependencies:
       '@temporalio/activity': 1.11.1
       '@temporalio/client': 1.11.1
@@ -1533,6 +1549,10 @@ snapshots:
       undici-types: 6.19.6
 
   '@types/webrtc@0.0.37': {}
+
+  '@types/ws@8.5.12':
+    dependencies:
+      '@types/node': 22.4.0
 
   '@webassemblyjs/ast@1.12.1':
     dependencies:

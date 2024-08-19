@@ -6,7 +6,7 @@ let openaiInstance: OpenAI | null = null;
 export const openaiClient = ({
   apiKey = process.env.OPENAI_API_KEY,
 }: {
-  apiKey: string;
+  apiKey?: string;
 }): OpenAI => {
   if (!apiKey) {
     throw new Error("API key is required to create OpenAI client.");

@@ -1,6 +1,9 @@
 import Restack, { ServiceInput } from "@restackio/restack-sdk-ts";
 import { rpmToSecond } from "@restackio/restack-sdk-ts/utils";
-import { openaiChatCompletion } from "./functions";
+import {
+  openaiChatCompletionsBase,
+  openaiChatCompletionsStream,
+} from "./functions";
 import { openaiTaskQueue } from "./taskQueue";
 
 // rate limit https://platform.openai.com/account/limits
@@ -14,7 +17,7 @@ export async function openaiService(
 
   await restack.startService({
     taskQueue: openaiTaskQueue,
-    functions: { openaiChatCompletion },
+    functions: { openaiChatCompletionsBase, openaiChatCompletionsStream },
     options,
   });
 }

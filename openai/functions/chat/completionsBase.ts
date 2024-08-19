@@ -1,7 +1,7 @@
 import { FunctionFailure, log } from "@restackio/restack-sdk-ts/function";
 import { ChatCompletion } from "openai/resources/chat/completions";
-import { openaiClient } from "../utils/client";
-import { openaiCost } from "../utils/cost";
+import { openaiClient } from "../../utils/client";
+import { openaiCost, Price } from "../../utils/cost";
 
 export type UsageOutput = { tokens: number; cost: number };
 
@@ -13,25 +13,21 @@ export type OpenAIChatInput = {
     schema: Record<string, unknown>;
   };
   model?: string;
+  price?: Price;
 };
 
-export const openaiChatCompletion = async ({
+export const openaiChatCompletionsBase = async ({
   apiKey,
   content,
   jsonSchema,
-  model,
-}: OpenAIChatInput): Promise<{
-  response: ChatCompletion;
-  usage: UsageOutput;
-}> => {
+  model = "gpt-4o-mini",
+  price,
+}: OpenAIChatInput) => {
   try {
     log.info("openaiChat", { apiKey, content, jsonSchema, model });
 
-    // Default to gpt-4o mini model
-    const modelToUse = model ?? "gpt-4o-mini";
-
     const openai = openaiClient({ apiKey });
-    const completion = await openai.chat.completions.create({
+    const completion: ChatCompletion = await openai.chat.completions.create({
       messages: [{ role: "user", content }],
       ...(jsonSchema && {
         response_format: {
@@ -43,22 +39,23 @@ export const openaiChatCompletion = async ({
           },
         },
       }),
-      model: modelToUse,
+      model,
       temperature: 0,
     });
 
     log.debug("completion", { completion });
 
     return {
-      response: completion,
-      usage: {
-        tokens: completion.usage?.total_tokens ?? 0,
-        cost: openaiCost({
-          model: modelToUse,
-          tokensCountInput: completion.usage?.prompt_tokens ?? 0,
-          tokensCountOutput: completion.usage?.completion_tokens ?? 0,
+      result: completion,
+      cost:
+        price &&
+        openaiCost({
+          price,
+          tokensCount: {
+            input: completion.usage?.prompt_tokens ?? 0,
+            output: completion.usage?.completion_tokens ?? 0,
+          },
         }),
-      },
     };
   } catch (error) {
     throw FunctionFailure.nonRetryable(`Error OpenAI chat: ${error}`);

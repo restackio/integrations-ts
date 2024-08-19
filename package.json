@@ -9,7 +9,7 @@
     "*"
   ],
   "dependencies": {
-    "@restackio/restack-sdk-ts": "^0.0.51"
+    "@restackio/restack-sdk-ts": "^0.0.52"
   },
   "devDependencies": {
     "typescript": "^4.9.5",
