@@ -5,7 +5,6 @@ import { elevenlabsClient } from "../utils/client";
 import { TextToSpeechRequest } from "elevenlabs/api";
 
 export async function elevenlabsConvert({
-  apiKey,
   text,
   voiceId = "fCxG8OHm4STbIsWe4aT9",
   options = {
@@ -13,12 +12,13 @@ export async function elevenlabsConvert({
     optimize_streaming_latency: ElevenLabs.OptimizeStreamingLatency.Zero,
   },
   twilioEncoding,
+  apiKey,
 }: {
-  apiKey: string;
   text: string;
   voiceId?: string;
   options?: Omit<TextToSpeechRequest, "text">;
   twilioEncoding?: string;
+  apiKey?: string;
 }) {
   if (!text.length) {
     log.error("Text is empty");

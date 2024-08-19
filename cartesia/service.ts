@@ -1,15 +1,16 @@
-import Restack from "@restackio/restack-sdk-ts";
+import Restack, { ServiceInput } from "@restackio/restack-sdk-ts";
+import { rpmToSecond } from "@restackio/restack-sdk-ts/utils";
 import { cartesiaTtsBytes } from "./functions";
 import { cartesiaTaskQueue } from "./taskQueue";
 
-export async function deepgramService({
-  rateLimit,
-  maxConcurrency = 3,
-}: {
-  rateLimit?: number;
-  maxConcurrency?: number;
-}) {
-  // https://play.cartesia.ai/subscription
+// rate limit https://play.cartesia.ai/subscription
+
+export async function deepgramService(
+  options: ServiceInput["options"] = {
+    rateLimit: rpmToSecond(480),
+    maxConcurrentFunctionRuns: 3,
+  }
+) {
   function calculateRpmToSecond(rpm: number): number {
     const secondsInAMinute: number = 60;
     return rpm / secondsInAMinute;
@@ -19,11 +20,10 @@ export async function deepgramService({
   await restack.startService({
     taskQueue: cartesiaTaskQueue,
     functions: { cartesiaTtsBytes },
-    rateLimit: rateLimit ?? calculateRpmToSecond(480),
-    maxConcurrentFunctionRuns: maxConcurrency,
+    options,
   });
 }
 
-deepgramService({}).catch((err) => {
+deepgramService().catch((err) => {
   console.error("Error service:", err);
 });

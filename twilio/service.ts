@@ -1,27 +1,20 @@
-import Restack from "@restackio/restack-sdk-ts";
+import Restack, { ServiceInput } from "@restackio/restack-sdk-ts";
 import { twilioCall } from "./functions";
 import { twilioTaskQueue } from "./taskQueue";
 
-export async function twilioService({
-  rateLimit,
-  maxConcurrency = 3,
-}: {
-  rateLimit?: number;
-  maxConcurrency?: number;
-}) {
-  // https://play.cartesia.ai/subscription
-  function calculateRpmToSecond(rpm: number): number {
-    // RPD limit https://platform.deepgram.com/account/limits
-    const secondsInAMinute: number = 60;
-    return rpm / secondsInAMinute;
+// rate limit https://help.twilio.com/articles/223180028
+
+export async function twilioService(
+  options: ServiceInput["options"] = {
+    rateLimit: 1,
   }
+) {
   const restack = new Restack();
 
   await restack.startService({
     taskQueue: twilioTaskQueue,
     functions: { twilioCall },
-    rateLimit: rateLimit ?? calculateRpmToSecond(480),
-    maxConcurrentFunctionRuns: maxConcurrency,
+    options,
   });
 }
 

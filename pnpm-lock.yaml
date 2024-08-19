@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@restackio/restack-sdk-ts':
-        specifier: ^0.0.50
-        version: 0.0.50
+        specifier: ^0.0.51
+        version: 0.0.51
     devDependencies:
       nodemon:
         specifier: ^2.0.12
@@ -42,6 +42,12 @@ importers:
         specifier: ^0.15.0
         version: 0.15.0
 
+  fal:
+    dependencies:
+      '@fal-ai/serverless-client':
+        specifier: ^0.14.2
+        version: 0.14.2
+
   openai:
     dependencies:
       openai:
@@ -71,6 +77,10 @@ packages:
   '@es-joy/jsdoccomment@0.46.0':
     resolution: {integrity: sha512-C3Axuq1xd/9VqFZpW4YAzOx5O9q/LP46uIQy/iNDpHG3fmPa6TBtvfglMCs3RBiBxAIi0Go97r8+jvTt55XMyQ==}
     engines: {node: '>=16'}
+
+  '@fal-ai/serverless-client@0.14.2':
+    resolution: {integrity: sha512-Rjd+BkFuPyMC1FdeWoMsdhn95WmwYHd0s0thjp9RyKW5/WzEqTT0Q1fyLnjzXAuIEgd9u8Yzu1dKK3GC0vxkgA==}
+    engines: {node: '>=18.0.0'}
 
   '@grpc/grpc-js@1.11.1':
     resolution: {integrity: sha512-gyt/WayZrVPH2w/UTLansS7F9Nwld472JxxaETamrM8HNlsa+jSLNyKAZmhxI2Me4c3mQHFiS1wWHDY1g1Kthw==}
@@ -126,6 +136,10 @@ packages:
     peerDependencies:
       tslib: '2'
 
+  '@msgpack/msgpack@3.0.0-beta2':
+    resolution: {integrity: sha512-y+l1PNV0XDyY8sM3YtuMLK5vE3/hkfId+Do8pLo/OPxfxuFAUwcGz3oiiUuV46/aBpwTzZ+mRWVMtlSKbradhw==}
+    engines: {node: '>= 14'}
+
   '@protobufjs/aspromise@1.1.2':
     resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
 
@@ -156,8 +170,8 @@ packages:
   '@protobufjs/utf8@1.1.0':
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
 
-  '@restackio/restack-sdk-ts@0.0.50':
-    resolution: {integrity: sha512-qbZ7CuzKXBC5O6Wv+LI3SLwHMstZ4RWvz+GllPAZOnT4QlEil7BHDcheyw5DdK6/cnL0NHzGUgz6AXItEiiFaA==}
+  '@restackio/restack-sdk-ts@0.0.51':
+    resolution: {integrity: sha512-EVQB12Bq4a311Gtd8yCIEIY/5bO0hemfhceKwom3lkGK5I+XwGc5f5k9SVDPUUBpBeXeQ8cFIwdZtTJF0wuPSw==}
     engines: {node: '>=20'}
 
   '@swc/core-darwin-arm64@1.7.11':
@@ -592,6 +606,10 @@ packages:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
     engines: {node: '>=0.8.x'}
 
+  eventsource-parser@1.1.2:
+    resolution: {integrity: sha512-v0eOBUbiaFojBu2s2NPBfYUoRR9GjcDNvCXVaqEf5vVfpIAh9f8RCo4vXTP8c63QRKCFwoLpMpTdPwwhEKVgzA==}
+    engines: {node: '>=14.18'}
+
   execa@5.1.1:
     resolution: {integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg==}
     engines: {node: '>=10'}
@@ -940,6 +958,9 @@ packages:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
 
+  robot3@0.4.1:
+    resolution: {integrity: sha512-hzjy826lrxzx8eRgv80idkf8ua1JAepRc9Efdtj03N3KNJuznQCPlyCJ7gnUmDFwZCLQjxy567mQVKmdv2BsXQ==}
+
   rxjs@7.8.1:
     resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
 
@@ -1261,6 +1282,12 @@ snapshots:
       esquery: 1.6.0
       jsdoc-type-pratt-parser: 4.0.0
 
+  '@fal-ai/serverless-client@0.14.2':
+    dependencies:
+      '@msgpack/msgpack': 3.0.0-beta2
+      eventsource-parser: 1.1.2
+      robot3: 0.4.1
+
   '@grpc/grpc-js@1.11.1':
     dependencies:
       '@grpc/proto-loader': 0.7.13
@@ -1318,6 +1345,8 @@ snapshots:
     dependencies:
       tslib: 2.6.3
 
+  '@msgpack/msgpack@3.0.0-beta2': {}
+
   '@protobufjs/aspromise@1.1.2': {}
 
   '@protobufjs/base64@1.1.2': {}
@@ -1341,7 +1370,7 @@ snapshots:
 
   '@protobufjs/utf8@1.1.0': {}
 
-  '@restackio/restack-sdk-ts@0.0.50':
+  '@restackio/restack-sdk-ts@0.0.51':
     dependencies:
       '@temporalio/activity': 1.11.1
       '@temporalio/client': 1.11.1
@@ -1826,6 +1855,8 @@ snapshots:
 
   events@3.3.0: {}
 
+  eventsource-parser@1.1.2: {}
+
   execa@5.1.1:
     dependencies:
       cross-spawn: 7.0.3
@@ -2152,6 +2183,8 @@ snapshots:
       picomatch: 2.3.1
 
   require-directory@2.1.1: {}
+
+  robot3@0.4.1: {}
 
   rxjs@7.8.1:
     dependencies:

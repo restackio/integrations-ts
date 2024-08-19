@@ -1,29 +1,23 @@
-import Restack from "@restackio/restack-sdk-ts";
+import Restack, { ServiceInput } from "@restackio/restack-sdk-ts";
 import { elevenlabsConvert } from "./functions";
 import { elevenlabsTaskQueue } from "./taskQueue";
 
-export async function elevenlabsService({
-  rateLimit,
-  maxConcurrency = 1,
-}: {
-  rateLimit?: number;
-  maxConcurrency?: number;
-}) {
-  // https://help.elevenlabs.io/hc/en-us/articles/14312733311761-How-many-requests-can-I-make-and-can-I-increase-it
-  function calculateRpmToSecond(rpm: number): number {
-    const secondsInAMinute: number = 60;
-    return rpm / secondsInAMinute;
+// rate limit https://help.elevenlabs.io/hc/en-us/articles/14312733311761-How-many-requests-can-I-make-and-can-I-increase-it
+
+export async function elevenlabsService(
+  options: ServiceInput["options"] = {
+    maxConcurrentFunctionRuns: 2,
   }
+) {
   const restack = new Restack();
 
   await restack.startService({
     taskQueue: elevenlabsTaskQueue,
     functions: { elevenlabsConvert },
-    rateLimit: rateLimit ?? calculateRpmToSecond(480),
-    maxConcurrentFunctionRuns: maxConcurrency,
+    options,
   });
 }
 
-elevenlabsService({}).catch((err) => {
+elevenlabsService().catch((err) => {
   console.error("Error service:", err);
 });

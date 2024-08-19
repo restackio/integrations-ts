@@ -4,7 +4,6 @@ import { deepgramClient } from "../utils/client";
 import { PrerecordedSchema } from "@deepgram/sdk";
 
 export async function deepgramListen({
-  apiKey,
   base64Payload,
   options = {
     detect_language: true,
@@ -15,11 +14,12 @@ export async function deepgramListen({
     utterance_end_ms: 2000,
   },
   twilioEncoding,
+  apiKey,
 }: {
-  apiKey: string;
   base64Payload: string;
   options?: PrerecordedSchema;
   twilioEncoding?: boolean;
+  apiKey?: string;
 }) {
   if (!base64Payload) {
     throw FunctionFailure.nonRetryable("No audio file");

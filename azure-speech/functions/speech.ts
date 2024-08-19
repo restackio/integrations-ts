@@ -4,22 +4,22 @@ import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 import { Buffer } from "node:buffer";
 
 export async function azureSpeech({
-  apiKey,
-  region,
   text,
   config = {
     voiceName: "en-US-DavisNeural",
   },
   twilioEncoding = false,
+  apiKey,
+  region,
 }: {
-  apiKey: string;
-  region: string;
   text: string;
   config: {
     voiceName: string;
     format?: sdk.SpeechSynthesisOutputFormat;
   };
   twilioEncoding?: boolean;
+  apiKey?: string;
+  region?: string;
 }) {
   if (!text.length) {
     log.error("Text is empty");

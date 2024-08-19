@@ -5,7 +5,7 @@ export async function cartesiaTtsBytes({
   apiKey = process.env.CARTESIA_API_KEY,
   text,
 }: {
-  apiKey: string;
+  apiKey?: string;
   text: string;
 }) {
   if (!text.length) {

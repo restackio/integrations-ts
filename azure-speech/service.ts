@@ -1,30 +1,25 @@
-import Restack from "@restackio/restack-sdk-ts";
+import Restack, { ServiceInput } from "@restackio/restack-sdk-ts";
+import { rpmToSecond } from "@restackio/restack-sdk-ts/utils";
 import { azureSpeech } from "./functions";
 import { azureSpeechTaskQueue } from "./taskQueue";
 
-export async function azureSpeechService({
-  rateLimit,
-  maxConcurrency = 1,
-}: {
-  rateLimit?: number;
-  maxConcurrency?: number;
-}) {
-  // https://learn.microsoft.com/en-us/azure/ai-services/speech-service/speech-services-quotas-and-limits
+// rate limit https://learn.microsoft.com/en-us/azure/ai-services/speech-service/speech-services-quotas-and-limits
 
-  function calculateRpmToSecond(rpm: number): number {
-    const secondsInAMinute: number = 60;
-    return rpm / secondsInAMinute;
+export async function azureSpeechService(
+  options: ServiceInput["options"] = {
+    rateLimit: rpmToSecond(600),
+    maxConcurrentFunctionRuns: 1,
   }
+) {
   const restack = new Restack();
 
   await restack.startService({
     taskQueue: azureSpeechTaskQueue,
     functions: { azureSpeech },
-    rateLimit: rateLimit ?? calculateRpmToSecond(600),
-    maxConcurrentFunctionRuns: maxConcurrency,
+    options,
   });
 }
 
-azureSpeechService({}).catch((err) => {
+azureSpeechService().catch((err) => {
   console.error("Error service:", err);
 });

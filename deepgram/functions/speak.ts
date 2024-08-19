@@ -24,17 +24,17 @@ const getAudioBuffer = async (stream: ReadableStream<Uint8Array>) => {
 };
 
 export async function deepgramSpeak({
-  apiKey,
   text,
   options = {
     model: "aura-arcas-en",
   },
   twilioEncoding,
+  apiKey,
 }: {
-  apiKey: string;
   text: string;
   options?: SpeakSchema;
   twilioEncoding?: boolean;
+  apiKey?: string;
 }) {
   if (!text.length) {
     log.error("Text is empty");
