@@ -4,7 +4,7 @@ import "dotenv/config";
 let clientDeepgram: DeepgramClient;
 
 export function deepgramClient({
-  apiKey = process.env.ELEVENLABS_API_KEY,
+  apiKey = process.env.DEEPGRAM_API_KEY,
 }: {
   apiKey: string;
 }) {
