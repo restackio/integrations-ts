@@ -1,5 +1,5 @@
 import { FunctionFailure, log } from "@restackio/restack-sdk-ts/function";
-import { ElevenLabs } from "elevenlabs";
+import { ElevenLabs } from "elevenlabs/index";
 
 import { elevenlabsClient } from "../utils/client";
 import { TextToSpeechRequest } from "elevenlabs/api";

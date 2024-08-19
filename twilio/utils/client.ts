@@ -1,4 +1,4 @@
-import twilio from "twilio";
+import twilio from "twilio/index";
 import "dotenv/config";
 
 let clientTwilio: twilio.Twilio;

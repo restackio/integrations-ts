@@ -1,4 +1,4 @@
-import { ElevenLabsClient } from "elevenlabs";
+import { ElevenLabsClient } from "elevenlabs/index";
 import "dotenv/config";
 
 let clientElevenlabs: ElevenLabsClient;
