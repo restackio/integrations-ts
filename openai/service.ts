@@ -1,19 +1,21 @@
-import Restack from "@restackio/restack-sdk-ts";
+import Restack, { ServiceInput } from "@restackio/restack-sdk-ts";
+import { rpmToSecond } from "@restackio/restack-sdk-ts/utils";
 import { openaiChatCompletion } from "./functions";
 import { openaiTaskQueue } from "./taskQueue";
 
-export async function openaiService() {
-  function calculateRpmToSecond(openaiRpm: number): number {
-    // RPD limit https://platform.openai.com/account/limits
-    const secondsInAMinute: number = 60;
-    return openaiRpm / secondsInAMinute;
+// rate limit https://platform.openai.com/account/limits
+
+export async function openaiService(
+  options: ServiceInput["options"] = {
+    rateLimit: rpmToSecond(5000),
   }
+) {
   const restack = new Restack();
 
   await restack.startService({
     taskQueue: openaiTaskQueue,
     functions: { openaiChatCompletion },
-    rateLimit: calculateRpmToSecond(5000),
+    options,
   });
 }
 

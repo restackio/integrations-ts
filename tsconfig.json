@@ -9,7 +9,10 @@
     "moduleResolution": "node16",
     "baseUrl": ".",
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@restackio/restack-sdk-ts": ["node_modules/@restackio/restack-sdk-ts"]
+    }
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"]
