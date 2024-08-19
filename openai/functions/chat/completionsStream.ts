@@ -76,7 +76,7 @@ export async function openaiChatCompletionsStream({
 
   for await (const chunk of stream) {
     let content = chunk.choices[0]?.delta?.content || "";
-    finishReason = chunk.choices[0].finish_reason;
+    finishReason = chunk.choices[0]?.finish_reason;
     tokensCountInput += chunk.usage?.prompt_tokens ?? 0;
     tokensCountOutput += chunk.usage?.completion_tokens ?? 0;
 
