@@ -6,7 +6,6 @@ import { PrerecordedSchema } from "@deepgram/sdk";
 export async function deepgramListen({
   base64Payload,
   options = {
-    detect_language: ["en"],
     model: "nova-2",
     punctuate: true,
     interim_results: true,
@@ -27,6 +26,7 @@ export async function deepgramListen({
 
   try {
     const decodedBuffer = Buffer.from(base64Payload, "base64");
+
     const deepgram = deepgramClient({ apiKey });
 
     const response = await deepgram.listen.prerecorded.transcribeFile(
@@ -45,13 +45,9 @@ export async function deepgramListen({
     }
 
     const result = response.result;
-    log.debug("deepgramListen result", { result });
     const firstChannel = result.results?.channels?.[0];
-    log.debug("firstChannel", { firstChannel });
-    log.debug("firstChannel", { alternatives: firstChannel });
 
     const transcript = firstChannel?.alternatives?.[0]?.transcript;
-    log.debug("transcript", { transcript });
 
     let language = "";
     if (options.detect_language) {
