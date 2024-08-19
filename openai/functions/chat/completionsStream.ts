@@ -13,7 +13,9 @@ import { openaiCost, Price } from "../../utils/cost";
 import { SendWorkflowEvent } from "@restackio/restack-sdk-ts/event";
 
 export async function openaiChatCompletionsStream({
+  userName,
   newMessage,
+  assistantName,
   messages = [],
   tools,
   toolEvent,
@@ -22,7 +24,9 @@ export async function openaiChatCompletionsStream({
   apiKey,
   price,
 }: {
+  userName?: string;
   newMessage?: string;
+  assistantName?: string;
   messages?: OpenAI.Chat.Completions.ChatCompletionMessageParam[];
   tools?: OpenAI.Chat.Completions.ChatCompletionTool[];
   toolEvent?: {
@@ -43,6 +47,7 @@ export async function openaiChatCompletionsStream({
   if (newMessage) {
     messages.push({
       role: "user",
+      name: userName,
       content: newMessage,
     });
   }
@@ -53,6 +58,9 @@ export async function openaiChatCompletionsStream({
     messages,
     tools,
     stream: true,
+    stream_options: {
+      include_usage: true,
+    },
   });
 
   const [stream, streamEnd] = chatStream.tee();
@@ -85,6 +93,7 @@ export async function openaiChatCompletionsStream({
                 name: toolCall.function?.name,
                 input: functionArguments,
               },
+              assistantName,
             };
             const workflowEvent = {
               ...workflow,
@@ -131,6 +140,7 @@ export async function openaiChatCompletionsStream({
         const newMessage: OpenAI.Chat.Completions.ChatCompletionMessageParam = {
           content: response,
           role: "assistant",
+          name: assistantName,
         };
 
         messages.push(newMessage);

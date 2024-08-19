@@ -1,11 +1,12 @@
 export type WebsocketEvent = {
-  streamSid: string;
+  streamSid: string; // For Twilio compatibility
   media?: {
-    track: string;
-    payload: string;
+    track?: "inbound" | "outbound"; // For Twilio compatibility
+    trackId: string;
+    payload?: string;
   };
   data?: {
-    track: string;
+    trackId: string;
     [key: string]: any;
   };
 };
