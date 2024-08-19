@@ -2,6 +2,7 @@ import OpenAI from "openai/index";
 
 export type StreamEvent = {
   response: string;
+  assistantName?: string;
   isLast: boolean;
 };
 
