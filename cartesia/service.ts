@@ -1,17 +1,15 @@
 import Restack from "@restackio/restack-sdk-ts";
-import { deepgramListen, deepgramSpeak } from "./functions";
-import { deepgramTaskQueue } from "./taskQueue";
+import { cartesiaTtsBytes } from "./functions";
+import { cartesiaTaskQueue } from "./taskQueue";
 
 export async function deepgramService({
   rateLimit,
-  maxConcurrency = 100,
+  maxConcurrency = 3,
 }: {
   rateLimit?: number;
   maxConcurrency?: number;
 }) {
-  // RPD limit https://platform.deepgram.com/account/limits
-  // https://developers.deepgram.com/reference/api-rate-limits
-
+  // https://play.cartesia.ai/subscription
   function calculateRpmToSecond(rpm: number): number {
     const secondsInAMinute: number = 60;
     return rpm / secondsInAMinute;
@@ -19,8 +17,8 @@ export async function deepgramService({
   const restack = new Restack();
 
   await restack.startService({
-    taskQueue: deepgramTaskQueue,
-    functions: { deepgramListen, deepgramSpeak },
+    taskQueue: cartesiaTaskQueue,
+    functions: { cartesiaTtsBytes },
     rateLimit: rateLimit ?? calculateRpmToSecond(480),
     maxConcurrentFunctionRuns: maxConcurrency,
   });

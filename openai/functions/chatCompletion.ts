@@ -27,8 +27,8 @@ export const openaiChatCompletion = async ({
   try {
     log.info("openaiChat", { apiKey, content, jsonSchema, model });
 
-    // Default to gpt-4o model
-    const modelToUse = model ?? "gpt-4o-mini-2024-07-18";
+    // Default to gpt-4o mini model
+    const modelToUse = model ?? "gpt-4o-mini";
 
     const openai = openaiClient({ apiKey });
     const completion = await openai.chat.completions.create({

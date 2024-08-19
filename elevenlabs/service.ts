@@ -1,17 +1,15 @@
 import Restack from "@restackio/restack-sdk-ts";
-import { deepgramListen, deepgramSpeak } from "./functions";
-import { deepgramTaskQueue } from "./taskQueue";
+import { elevenlabsConvert } from "./functions";
+import { elevenlabsTaskQueue } from "./taskQueue";
 
-export async function deepgramService({
+export async function elevenlabsService({
   rateLimit,
-  maxConcurrency = 100,
+  maxConcurrency = 1,
 }: {
   rateLimit?: number;
   maxConcurrency?: number;
 }) {
-  // RPD limit https://platform.deepgram.com/account/limits
-  // https://developers.deepgram.com/reference/api-rate-limits
-
+  // https://help.elevenlabs.io/hc/en-us/articles/14312733311761-How-many-requests-can-I-make-and-can-I-increase-it
   function calculateRpmToSecond(rpm: number): number {
     const secondsInAMinute: number = 60;
     return rpm / secondsInAMinute;
@@ -19,13 +17,13 @@ export async function deepgramService({
   const restack = new Restack();
 
   await restack.startService({
-    taskQueue: deepgramTaskQueue,
-    functions: { deepgramListen, deepgramSpeak },
+    taskQueue: elevenlabsTaskQueue,
+    functions: { elevenlabsConvert },
     rateLimit: rateLimit ?? calculateRpmToSecond(480),
     maxConcurrentFunctionRuns: maxConcurrency,
   });
 }
 
-deepgramService({}).catch((err) => {
+elevenlabsService({}).catch((err) => {
   console.error("Error service:", err);
 });

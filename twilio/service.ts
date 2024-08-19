@@ -1,31 +1,30 @@
 import Restack from "@restackio/restack-sdk-ts";
-import { deepgramListen, deepgramSpeak } from "./functions";
-import { deepgramTaskQueue } from "./taskQueue";
+import { twilioCall } from "./functions";
+import { twilioTaskQueue } from "./taskQueue";
 
-export async function deepgramService({
+export async function twilioService({
   rateLimit,
-  maxConcurrency = 100,
+  maxConcurrency = 3,
 }: {
   rateLimit?: number;
   maxConcurrency?: number;
 }) {
-  // RPD limit https://platform.deepgram.com/account/limits
-  // https://developers.deepgram.com/reference/api-rate-limits
-
+  // https://play.cartesia.ai/subscription
   function calculateRpmToSecond(rpm: number): number {
+    // RPD limit https://platform.deepgram.com/account/limits
     const secondsInAMinute: number = 60;
     return rpm / secondsInAMinute;
   }
   const restack = new Restack();
 
   await restack.startService({
-    taskQueue: deepgramTaskQueue,
-    functions: { deepgramListen, deepgramSpeak },
+    taskQueue: twilioTaskQueue,
+    functions: { twilioCall },
     rateLimit: rateLimit ?? calculateRpmToSecond(480),
     maxConcurrentFunctionRuns: maxConcurrency,
   });
 }
 
-deepgramService({}).catch((err) => {
+twilioService({}).catch((err) => {
   console.error("Error service:", err);
 });

@@ -5,8 +5,11 @@
     "dev": "pnpm -r run dev",
     "publish-test": "pnpm -r --filter \"./**\" --filter \"!./\" publish --access public --dry-run --no-git-checks --report-summary"
   },
+  "workspaces": [
+    "*"
+  ],
   "dependencies": {
-    "@restackio/restack-sdk-ts": "^0.0.48"
+    "@restackio/restack-sdk-ts": "^0.0.50"
   },
   "devDependencies": {
     "typescript": "^4.9.5",
