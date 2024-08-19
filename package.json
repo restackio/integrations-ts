@@ -1,8 +1,8 @@
 {
   "name": "@restackio/integrations",
   "scripts": {
-    "build": "pnpm -r run build",
-    "dev": "pnpm -r run dev",
+    "build": "pnpm -r run --parallel build",
+    "dev": "pnpm -r run --parallel --stream dev",
     "publish-test": "pnpm -r --filter \"./**\" --filter \"!./\" publish --access public --dry-run --no-git-checks --report-summary"
   },
   "workspaces": [

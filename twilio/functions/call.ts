@@ -1,6 +1,6 @@
 import { FunctionFailure } from "@restackio/restack-sdk-ts/function";
 import { CallListInstanceCreateOptions } from "twilio/lib/rest/api/v2010/account/call";
-import { twilioClient } from "twilio/utils/client";
+import { twilioClient } from "../utils/client";
 
 interface Output {
   sid: string;
