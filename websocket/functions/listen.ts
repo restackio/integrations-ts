@@ -32,6 +32,10 @@ export async function websocketListen({
         if (events) {
           events.forEach((listenEvent) => {
             if (message.event === listenEvent.websocketEventName) {
+              if (message.media && message.media.track !== "inbound") {
+                return;
+              }
+
               const workflowEvent: SendWorkflowEvent = {
                 event: {
                   name: listenEvent.workflowEventName,
