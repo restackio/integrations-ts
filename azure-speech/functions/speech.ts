@@ -13,14 +13,18 @@ export async function azureSpeech({
   region,
 }: {
   text: string;
-  config: {
+  config?: {
     voiceName: string;
     format?: sdk.SpeechSynthesisOutputFormat;
   };
   twilioEncoding?: boolean;
   apiKey?: string;
   region?: string;
-}) {
+}): Promise<{
+  media: {
+    payload: string;
+  };
+}> {
   if (!text.length) {
     log.error("Text is empty");
     throw FunctionFailure.nonRetryable("Text is empty");
