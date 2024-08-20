@@ -6,7 +6,6 @@ import { openaiCost, Price } from "../../utils/cost";
 export type UsageOutput = { tokens: number; cost: number };
 
 export type OpenAIChatInput = {
-  apiKey: string;
   content: string;
   jsonSchema?: {
     name: string;
@@ -14,14 +13,15 @@ export type OpenAIChatInput = {
   };
   model?: string;
   price?: Price;
+  apiKey?: string;
 };
 
 export const openaiChatCompletionsBase = async ({
-  apiKey,
   content,
   jsonSchema,
   model = "gpt-4o-mini",
   price,
+  apiKey,
 }: OpenAIChatInput) => {
   try {
     log.info("openaiChat", { apiKey, content, jsonSchema, model });
