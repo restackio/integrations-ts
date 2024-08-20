@@ -11,8 +11,8 @@ export async function twilioCall({
   authToken,
   options,
 }: {
-  accountSid: string;
-  authToken: string;
+  accountSid?: string;
+  authToken?: string;
   options: CallListInstanceCreateOptions;
 }): Promise<Output> {
   const client = twilioClient({ accountSid, authToken });
