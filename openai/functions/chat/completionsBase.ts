@@ -7,6 +7,7 @@ export type UsageOutput = { tokens: number; cost: number };
 
 export type OpenAIChatInput = {
   content: string;
+  systemPrompt?: string;
   jsonSchema?: {
     name: string;
     schema: Record<string, unknown>;
@@ -18,6 +19,7 @@ export type OpenAIChatInput = {
 
 export const openaiChatCompletionsBase = async ({
   content,
+  systemPrompt = "",
   jsonSchema,
   model = "gpt-4o-mini",
   price,
@@ -28,7 +30,10 @@ export const openaiChatCompletionsBase = async ({
 
     const openai = openaiClient({ apiKey });
     const completion: ChatCompletion = await openai.chat.completions.create({
-      messages: [{ role: "user", content }],
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content },
+      ],
       ...(jsonSchema && {
         response_format: {
           type: "json_schema",
