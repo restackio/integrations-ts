@@ -11,8 +11,6 @@ export async function websocketListen({
   streamSid,
   events,
   address,
-  silenceDuration = 5000,
-  silenceEvent,
 }: {
   streamSid: string;
   events?: {
@@ -21,11 +19,6 @@ export async function websocketListen({
     workflow?: SendWorkflowEvent["workflow"];
   }[];
   address?: string;
-  silenceDuration?: number;
-  silenceEvent?: {
-    workflowEventName: string;
-    workflow?: SendWorkflowEvent["workflow"];
-  };
 }) {
   return new Promise<void>(async (resolve) => {
     const ws = await websocketConnect({ address });
@@ -33,38 +26,9 @@ export async function websocketListen({
     const restack = new Restack();
     const workflow = currentWorkflow().workflowExecution;
 
-    let silenceTimer: NodeJS.Timeout;
-
-    const resetSilenceTimer = () => {
-      if (silenceTimer) clearTimeout(silenceTimer);
-      silenceTimer = setTimeout(() => {
-        if (silenceEvent) {
-          const workflowEvent: SendWorkflowEvent = {
-            event: {
-              name: silenceEvent.workflowEventName,
-              input: {
-                streamSid,
-              },
-            },
-            workflow: {
-              ...workflow,
-              ...silenceEvent.workflow,
-            },
-          };
-          log.debug(`Silence detected, sending workflow event`, {
-            workflowEvent,
-          });
-
-          restack.sendWorkflowEvent(workflowEvent);
-        }
-      }, silenceDuration);
-    };
-
     ws.on("message", (data) => {
       const message = JSON.parse(data.toString());
       if (message.streamSid === streamSid) {
-        resetSilenceTimer();
-
         if (events) {
           events.forEach((listenEvent) => {
             if (message.event === listenEvent.websocketEventName) {
@@ -100,7 +64,5 @@ export async function websocketListen({
         }
       }
     });
-
-    resetSilenceTimer();
   });
 }
