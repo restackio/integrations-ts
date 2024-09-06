@@ -1,7 +1,8 @@
 import OpenAI from "openai/index";
 
 export type StreamEvent = {
-  chunkId: string;
+  chunkId?: string;
+  chunkContent?: string;
   response: string;
   assistantName?: string;
   isLast: boolean;
