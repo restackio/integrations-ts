@@ -139,6 +139,7 @@ export async function openaiChatCompletionsStream({
       ) {
         if (response.length) {
           const input: StreamEvent = {
+            chunkId: chunk.id,
             assistantName,
             response,
             isLast: finishReason === "stop",
