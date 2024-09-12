@@ -4,20 +4,26 @@ import { elevenlabsTaskQueue } from "./taskQueue";
 
 // rate limit https://help.elevenlabs.io/hc/en-us/articles/14312733311761-How-many-requests-can-I-make-and-can-I-increase-it
 
-export async function elevenlabsService(
-  options: ServiceInput["options"] = {
+export async function elevenlabsService({
+  client,
+  options = {
     maxConcurrentFunctionRuns: 2,
+  },
+}: {
+  client?: Restack;
+  options?: ServiceInput["options"];
+}) {
+  if (!client) {
+    client = new Restack();
   }
-) {
-  const restack = new Restack();
 
-  await restack.startService({
+  await client.startService({
     taskQueue: elevenlabsTaskQueue,
     functions: { elevenlabsConvert },
     options,
   });
 }
 
-elevenlabsService().catch((err) => {
+elevenlabsService({}).catch((err) => {
   console.error("Error service:", err);
 });

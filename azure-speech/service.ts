@@ -5,21 +5,27 @@ import { azureSpeechTaskQueue } from "./taskQueue";
 
 // rate limit https://learn.microsoft.com/en-us/azure/ai-services/speech-service/speech-services-quotas-and-limits
 
-export async function azureSpeechService(
-  options: ServiceInput["options"] = {
+export async function azureSpeechService({
+  client,
+  options = {
     rateLimit: rpmToSecond(600),
     maxConcurrentFunctionRuns: 1,
+  },
+}: {
+  client?: Restack;
+  options?: ServiceInput["options"];
+}) {
+  if (!client) {
+    client = new Restack();
   }
-) {
-  const restack = new Restack();
 
-  await restack.startService({
+  await client.startService({
     taskQueue: azureSpeechTaskQueue,
     functions: { azureSpeech },
     options,
   });
 }
 
-azureSpeechService().catch((err) => {
+azureSpeechService({}).catch((err) => {
   console.error("Error service:", err);
 });

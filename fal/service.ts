@@ -1,17 +1,25 @@
 import Restack, { ServiceInput } from "@restackio/restack-sdk-ts";
-import { falRun } from "./functions";
 import { falTaskQueue } from "./taskQueue";
+import { falRun } from "./functions";
 
-export async function falService(options?: ServiceInput["options"]) {
-  const restack = new Restack();
+export async function falService({
+  client,
+  options,
+}: {
+  client?: Restack;
+  options?: ServiceInput["options"];
+}) {
+  if (!client) {
+    client = new Restack();
+  }
 
-  await restack.startService({
+  await client.startService({
     taskQueue: falTaskQueue,
     functions: { falRun },
     options,
   });
 }
 
-falService().catch((err) => {
+falService({ client: new Restack() }).catch((err) => {
   console.error("Error service:", err);
 });
