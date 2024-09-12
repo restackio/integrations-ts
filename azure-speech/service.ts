@@ -12,13 +12,9 @@ export async function azureSpeechService({
     maxConcurrentFunctionRuns: 1,
   },
 }: {
-  client?: Restack;
+  client: Restack;
   options?: ServiceInput["options"];
 }) {
-  if (!client) {
-    client = new Restack();
-  }
-
   await client.startService({
     taskQueue: azureSpeechTaskQueue,
     functions: { azureSpeech },
@@ -26,6 +22,6 @@ export async function azureSpeechService({
   });
 }
 
-azureSpeechService({}).catch((err) => {
+azureSpeechService({ client: new Restack() }).catch((err) => {
   console.error("Error service:", err);
 });

@@ -13,13 +13,9 @@ export async function deepgramService({
     maxConcurrentFunctionRuns: 100,
   },
 }: {
-  client?: Restack;
+  client: Restack;
   options?: ServiceInput["options"];
 }) {
-  if (!client) {
-    client = new Restack();
-  }
-
   await client.startService({
     taskQueue: deepgramTaskQueue,
     functions: { deepgramListen, deepgramSpeak },
@@ -27,6 +23,6 @@ export async function deepgramService({
   });
 }
 
-deepgramService({}).catch((err) => {
+deepgramService({ client: new Restack() }).catch((err) => {
   console.error("Error service:", err);
 });

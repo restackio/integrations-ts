@@ -12,18 +12,16 @@ export async function cartesiaService({
     maxConcurrentFunctionRuns: 3,
   },
 }: {
-  client?: Restack;
+  client: Restack;
   options?: ServiceInput["options"];
 }) {
-  const restack = new Restack();
-
-  await restack.startService({
+  await client.startService({
     taskQueue: cartesiaTaskQueue,
     functions: { cartesiaTtsBytes },
     options,
   });
 }
 
-cartesiaService({}).catch((err) => {
+cartesiaService({ client: new Restack() }).catch((err) => {
   console.error("Error service:", err);
 });

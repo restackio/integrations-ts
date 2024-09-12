@@ -10,13 +10,9 @@ export async function elevenlabsService({
     maxConcurrentFunctionRuns: 2,
   },
 }: {
-  client?: Restack;
+  client: Restack;
   options?: ServiceInput["options"];
 }) {
-  if (!client) {
-    client = new Restack();
-  }
-
   await client.startService({
     taskQueue: elevenlabsTaskQueue,
     functions: { elevenlabsConvert },
@@ -24,6 +20,6 @@ export async function elevenlabsService({
   });
 }
 
-elevenlabsService({}).catch((err) => {
+elevenlabsService({ client: new Restack() }).catch((err) => {
   console.error("Error service:", err);
 });

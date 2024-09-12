@@ -10,13 +10,9 @@ export async function twilioService({
     rateLimit: 1,
   },
 }: {
-  client?: Restack;
+  client: Restack;
   options?: ServiceInput["options"];
 }) {
-  if (!client) {
-    client = new Restack();
-  }
-
   await client.startService({
     taskQueue: twilioTaskQueue,
     functions: { twilioCall },
@@ -24,6 +20,6 @@ export async function twilioService({
   });
 }
 
-twilioService({}).catch((err) => {
+twilioService({ client: new Restack() }).catch((err) => {
   console.error("Error service:", err);
 });

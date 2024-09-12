@@ -14,13 +14,9 @@ export async function openaiService({
     rateLimit: rpmToSecond(5000),
   },
 }: {
-  client?: Restack;
+  client: Restack;
   options?: ServiceInput["options"];
 }) {
-  if (!client) {
-    client = new Restack();
-  }
-
   await client.startService({
     taskQueue: openaiTaskQueue,
     functions: { openaiChatCompletionsBase, openaiChatCompletionsStream },

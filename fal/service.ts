@@ -6,13 +6,9 @@ export async function falService({
   client,
   options,
 }: {
-  client?: Restack;
+  client: Restack;
   options?: ServiceInput["options"];
 }) {
-  if (!client) {
-    client = new Restack();
-  }
-
   await client.startService({
     taskQueue: falTaskQueue,
     functions: { falRun },
