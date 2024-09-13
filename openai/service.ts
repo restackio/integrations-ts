@@ -20,7 +20,7 @@ export async function openaiService({
   taskQueueSuffix?: string;
 }) {
   await client.startService({
-    taskQueue: `${openaiTaskQueue}${taskQueueSuffix}`,
+    taskQueue: `${openaiTaskQueue}${taskQueueSuffix ?? ""}`,
     functions: { openaiChatCompletionsBase, openaiChatCompletionsStream },
     options,
   });
