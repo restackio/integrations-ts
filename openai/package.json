@@ -1,6 +1,6 @@
 {
   "name": "@restackio/integrations-openai",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "main": "dist/service.js",
   "types": "dist/service.d.ts",
   "scripts": {
@@ -10,7 +10,7 @@
     "build": "npm run clean && tsc"
   },
   "dependencies": {
-    "openai": "^4.60.0"
+    "openai": "^4.60.1"
   },
   "files": [
     "dist"

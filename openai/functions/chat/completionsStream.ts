@@ -1,5 +1,5 @@
 import OpenAI from "openai/index";
-import { ChatCompletionChunk } from "openai/resources/chat/completions.mjs";
+import { ChatCompletionChunk } from "openai/resources/chat/completions";
 
 import Restack from "@restackio/restack-sdk-ts";
 import { currentWorkflow, log } from "@restackio/restack-sdk-ts/function";
@@ -11,8 +11,10 @@ import { mergeToolCalls } from "../../utils/mergeToolCalls";
 import { openaiClient } from "../../utils/client";
 import { openaiCost, Price } from "../../utils/cost";
 import { SendWorkflowEvent } from "@restackio/restack-sdk-ts/event";
+import { ChatModel } from "openai/resources/index";
 
 export async function openaiChatCompletionsStream({
+  model = "gpt-4o-mini",
   userName,
   newMessage,
   assistantName,
@@ -24,6 +26,7 @@ export async function openaiChatCompletionsStream({
   apiKey,
   price,
 }: {
+  model?: ChatModel;
   userName?: string;
   newMessage?: string;
   assistantName?: string;
@@ -44,7 +47,7 @@ export async function openaiChatCompletionsStream({
   const restack = new Restack();
   const workflow = currentWorkflow().workflowExecution;
 
-  log.info("workflow", { workflow });
+  log.debug("workflow", { workflow });
 
   if (newMessage) {
     messages.push({
@@ -56,7 +59,7 @@ export async function openaiChatCompletionsStream({
 
   const openai = openaiClient({ apiKey });
   const chatStream = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
+    model: model,
     messages,
     tools,
     stream: true,

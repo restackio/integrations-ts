@@ -11,14 +11,16 @@ import { openaiTaskQueue } from "./taskQueue";
 export async function openaiService({
   client,
   options = {
-    rateLimit: rpmToSecond(5000),
+    rateLimit: rpmToSecond(10000),
   },
+  taskQueueSuffix,
 }: {
   client: Restack;
   options?: ServiceInput["options"];
+  taskQueueSuffix?: string;
 }) {
   await client.startService({
-    taskQueue: openaiTaskQueue,
+    taskQueue: `${openaiTaskQueue}${taskQueueSuffix}`,
     functions: { openaiChatCompletionsBase, openaiChatCompletionsStream },
     options,
   });

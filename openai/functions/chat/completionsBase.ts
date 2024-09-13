@@ -1,38 +1,50 @@
 import { FunctionFailure, log } from "@restackio/restack-sdk-ts/function";
-import { ChatCompletion } from "openai/resources/chat/completions";
+import { ChatCompletionCreateParamsNonStreaming } from "openai/resources/chat/completions";
 import { openaiClient } from "../../utils/client";
 import { openaiCost, Price } from "../../utils/cost";
+import { ChatModel } from "openai/resources/index";
 
 export type UsageOutput = { tokens: number; cost: number };
 
 export type OpenAIChatInput = {
-  content: string;
-  systemPrompt?: string;
+  userContent: string;
+  systemContent?: string;
+  model?: ChatModel;
   jsonSchema?: {
     name: string;
     schema: Record<string, unknown>;
   };
-  model?: string;
   price?: Price;
   apiKey?: string;
+  params?: ChatCompletionCreateParamsNonStreaming;
 };
 
 export const openaiChatCompletionsBase = async ({
-  content,
-  systemPrompt = "",
-  jsonSchema,
+  userContent,
+  systemContent = "",
   model = "gpt-4o-mini",
+  jsonSchema,
   price,
   apiKey,
+  params,
 }: OpenAIChatInput) => {
   try {
-    log.info("openaiChat", { apiKey, content, jsonSchema, model });
-
     const openai = openaiClient({ apiKey });
-    const completion: ChatCompletion = await openai.chat.completions.create({
+
+    const isO1Model = model.startsWith("o1-");
+
+    const o1ModelParams = {
+      temperature: 1,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    };
+
+    const chatParams: ChatCompletionCreateParamsNonStreaming = {
       messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content },
+        ...(systemContent ? [{ role: "system", content: systemContent }] : []),
+        { role: "user", userContent },
+        ...params.messages,
       ],
       ...(jsonSchema && {
         response_format: {
@@ -45,10 +57,15 @@ export const openaiChatCompletionsBase = async ({
         },
       }),
       model,
-      temperature: 0,
+      ...params,
+      ...(isO1Model && o1ModelParams),
+    };
+
+    log.debug("OpenAI chat completion params", {
+      chatParams,
     });
 
-    log.debug("completion", { completion });
+    const completion = await openai.chat.completions.create(chatParams);
 
     return {
       result: completion,
