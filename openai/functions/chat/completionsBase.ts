@@ -2,7 +2,7 @@ import { FunctionFailure, log } from "@restackio/restack-sdk-ts/function";
 import { ChatCompletionCreateParamsNonStreaming } from "openai/resources/chat/completions";
 import { openaiClient } from "../../utils/client";
 import { openaiCost, Price } from "../../utils/cost";
-import { ChatModel } from "openai/resources/index";
+import { ChatCompletion, ChatModel } from "openai/resources/index";
 
 export type UsageOutput = { tokens: number; cost: number };
 
@@ -27,7 +27,7 @@ export const openaiChatCompletionsBase = async ({
   price,
   apiKey,
   params,
-}: OpenAIChatInput) => {
+}: OpenAIChatInput): Promise<{ result: ChatCompletion; cost?: number }> => {
   try {
     const openai = openaiClient({ apiKey });
 
