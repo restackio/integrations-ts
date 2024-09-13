@@ -1,6 +1,6 @@
 import { FunctionFailure, log } from "@restackio/restack-sdk-ts/function";
 import { IssueCreateInput } from "@linear/sdk/dist/_generated_documents";
-import { linearClient } from "linear/utils/client";
+import { linearClient } from "../utils/client";
 
 export async function linearCreateIssue({
   issue,
