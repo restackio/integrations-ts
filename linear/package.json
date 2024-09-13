@@ -1,0 +1,40 @@
+{
+  "name": "@restackio/integrations-linear",
+  "version": "0.0.1",
+  "main": "dist/service.js",
+  "types": "dist/service.d.ts",
+  "scripts": {
+    "start.watch": "nodemon ./service.ts",
+    "dev": "pnpm start.watch",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc"
+  },
+  "dependencies": {
+    "@linear/sdk": "^29.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/service.js",
+      "require": "./dist/service.js",
+      "types": "./dist/service.d.ts"
+    },
+    "./taskQueue": {
+      "import": "./dist/taskQueue.js",
+      "require": "./dist/taskQueue.js",
+      "types": "./dist/taskQueue.d.ts"
+    },
+    "./functions": {
+      "import": "./dist/functions/index.js",
+      "require": "./dist/functions/index.js",
+      "types": "./dist/functions/index.ts"
+    },
+    "./workflows": {
+      "import": "./dist/workflows/index.js",
+      "require": "./dist/workflows/index.js",
+      "types": "./dist/workflows/index.ts"
+    }
+  }
+}
