@@ -43,8 +43,8 @@ export const openaiChatCompletionsBase = async ({
     const chatParams: ChatCompletionCreateParamsNonStreaming = {
       messages: [
         ...(systemContent ? [{ role: "system", content: systemContent }] : []),
-        { role: "user", userContent },
-        ...params.messages,
+        { role: "user", content: userContent },
+        ...(params?.messages ?? []),
       ],
       ...(jsonSchema && {
         response_format: {
