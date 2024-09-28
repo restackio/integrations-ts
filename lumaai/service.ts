@@ -1,6 +1,6 @@
 import Restack, { ServiceInput } from "@restackio/restack-sdk-ts";
 import { rpmToSecond } from "@restackio/restack-sdk-ts/utils";
-import { lumaaiGeneration } from "./functions";
+import { lumaaiGenerate, lumaaiGetGeneration } from "./functions";
 import { lumaaiTaskQueue } from "./taskQueue";
 
 // https://docs.lumalabs.ai/docs/rate-limits
@@ -17,7 +17,7 @@ export async function lumaaiService({
 }) {
   await client.startService({
     taskQueue: lumaaiTaskQueue,
-    functions: { lumaaiGeneration },
+    functions: { lumaaiGenerate, lumaaiGetGeneration },
     options,
   });
 }
