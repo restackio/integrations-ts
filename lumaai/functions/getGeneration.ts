@@ -7,6 +7,7 @@ export async function lumaaiGetGeneration({
   generationId: string;
   apiKey?: string;
 }) {
+  // Explicitly define the return type
   try {
     const client = lumaaiClient({
       apiKey,
