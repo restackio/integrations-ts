@@ -1,4 +1,5 @@
 import { lumaaiClient } from "../utils/client";
+import { LumaAI } from "lumaai";
 
 export async function lumaaiGetGeneration({
   generationId,
@@ -6,7 +7,7 @@ export async function lumaaiGetGeneration({
 }: {
   generationId: string;
   apiKey?: string;
-}) {
+}): Promise<{ generation: LumaAI.Generation }> {
   // Explicitly define the return type
   try {
     const client = lumaaiClient({
