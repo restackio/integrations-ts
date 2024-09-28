@@ -54,6 +54,12 @@ importers:
         specifier: ^29.0.0
         version: 29.0.0
 
+  lumaai:
+    dependencies:
+      lumaai:
+        specifier: ^1.0.2
+        version: 1.0.2
+
   openai:
     dependencies:
       openai:
@@ -864,6 +870,9 @@ packages:
 
   long@5.2.3:
     resolution: {integrity: sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==}
+
+  lumaai@1.0.2:
+    resolution: {integrity: sha512-0kaKKcDEoTck0rxv3p8jvu6LrJr+w8VTSAqhZ917Eq74CU8HVyyg3VqCPHv62G6dJaO8lGND9Px7V1bMM0pjPQ==}
 
   make-error@1.3.6:
     resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
@@ -2120,6 +2129,18 @@ snapshots:
   lodash.once@4.1.1: {}
 
   long@5.2.3: {}
+
+  lumaai@1.0.2:
+    dependencies:
+      '@types/node': 18.19.45
+      '@types/node-fetch': 2.6.11
+      abort-controller: 3.0.0
+      agentkeepalive: 4.5.0
+      form-data-encoder: 1.7.2
+      formdata-node: 4.4.1
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
 
   make-error@1.3.6: {}
 
