@@ -1,6 +1,6 @@
 import { log } from "@restackio/restack-sdk-ts/function";
 import LumaAI from "lumaai";
-import { lumaaiClient } from "lumaai/utils/client";
+import { lumaaiClient } from "../utils/client";
 
 export async function lumaaiGeneration({
   prompt,
