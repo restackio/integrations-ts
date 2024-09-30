@@ -6,7 +6,6 @@ export async function lumaaiListGenerations({
 }: {
   apiKey?: string;
 }): Promise<{ list: LumaAI.Generations.GenerationListResponse }> {
-  // Explicitly define the return type
   try {
     const client = lumaaiClient({
       apiKey,

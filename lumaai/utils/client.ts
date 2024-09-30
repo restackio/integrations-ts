@@ -1,5 +1,6 @@
 import LumaAI from "lumaai";
 import "dotenv/config";
+import { FunctionFailure } from "@restackio/restack-sdk-ts/function"; // Import FunctionFailure
 
 let clientLumaai: LumaAI;
 
@@ -13,7 +14,14 @@ export function lumaaiClient({
   }
 
   if (!clientLumaai) {
-    clientLumaai = new LumaAI({ authToken: apiKey });
+    try {
+      clientLumaai = new LumaAI({
+        authToken: apiKey,
+      });
+    } catch (error) {
+      throw new FunctionFailure("Unauthorized access - invalid API key");
+    }
   }
+
   return clientLumaai;
 }

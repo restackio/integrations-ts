@@ -7,11 +7,13 @@ export async function lumaaiGenerate({
   aspectRatio,
   apiKey,
   extendGenerationId,
+  fromImageUrl,
 }: {
   prompt: string;
   aspectRatio: "1:1" | "16:9" | "9:16" | "4:3" | "3:4" | "21:9" | "9:21";
   apiKey?: string;
   extendGenerationId?: string;
+  fromImageUrl?: string;
 }) {
   try {
     const client = lumaaiClient({
@@ -28,6 +30,16 @@ export async function lumaaiGenerate({
                 frame0: {
                   type: "generation",
                   id: extendGenerationId,
+                },
+              },
+            }
+          : {}),
+        ...(fromImageUrl
+          ? {
+              keyframes: {
+                frame0: {
+                  type: "image",
+                  url: fromImageUrl,
                 },
               },
             }
