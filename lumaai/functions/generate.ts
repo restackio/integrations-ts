@@ -5,15 +5,17 @@ import { lumaaiClient } from "../utils/client";
 export async function lumaaiGenerate({
   prompt,
   aspectRatio,
-  apiKey,
+  loop = false,
   extendGenerationId,
   fromImageUrl,
+  apiKey,
 }: {
   prompt: string;
   aspectRatio: "1:1" | "16:9" | "9:16" | "4:3" | "3:4" | "21:9" | "9:21";
-  apiKey?: string;
+  loop?: boolean;
   extendGenerationId?: string;
   fromImageUrl?: string;
+  apiKey?: string;
 }) {
   try {
     const client = lumaaiClient({
@@ -44,6 +46,7 @@ export async function lumaaiGenerate({
               },
             }
           : {}),
+        loop,
       })
       .catch(async (err) => {
         if (err instanceof LumaAI.APIError) {
