@@ -20,10 +20,28 @@ type ImageResults = {
 export async function falRun({
   id = "fal-ai/flux/dev",
   prompt,
+  imageSize = "landscape_16_9",
+  numInferenceSteps = 4,
+  numImages = 1,
+  enableSafetyChecker = false,
+  seed,
+  syncMode,
   apiKey,
 }: {
   id: string;
   prompt: string;
+  imageSize?:
+    | "square_hd"
+    | "square"
+    | "portrait_4_3"
+    | "portrait_16_9"
+    | "landscape_4_3"
+    | "landscape_16_9";
+  numInferenceSteps?: number;
+  numImages?: number;
+  enableSafetyChecker?: boolean;
+  seed?: number;
+  syncMode?: boolean;
   apiKey?: string;
 }) {
   if (!prompt) {
@@ -36,6 +54,12 @@ export async function falRun({
     const result: ImageResults = await fal.run(id, {
       input: {
         prompt,
+        image_size: imageSize,
+        num_inference_steps: numInferenceSteps,
+        sync_mode: syncMode,
+        seed,
+        num_images: numImages,
+        enable_safety_checker: enableSafetyChecker,
       },
     });
 
