@@ -22,31 +22,29 @@ export async function lumaaiGenerate({
       apiKey,
     });
 
+    let keyframes;
+    if (extendGenerationId) {
+      keyframes = {
+        frame0: {
+          type: "generation",
+          id: extendGenerationId,
+        },
+      };
+    } else if (fromImageUrl) {
+      keyframes = {
+        frame0: {
+          type: "image",
+          url: fromImageUrl,
+        },
+      };
+    }
+
     const generation = await client.generations
       .create({
         aspect_ratio: aspectRatio,
         prompt: prompt,
-        ...(extendGenerationId
-          ? {
-              keyframes: {
-                frame0: {
-                  type: "generation",
-                  id: extendGenerationId,
-                },
-              },
-            }
-          : {}),
-        ...(fromImageUrl
-          ? {
-              keyframes: {
-                frame0: {
-                  type: "image",
-                  url: fromImageUrl,
-                },
-              },
-            }
-          : {}),
         loop,
+        ...(keyframes && { keyframes }),
       })
       .catch(async (err) => {
         if (err instanceof LumaAI.APIError) {
