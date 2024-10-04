@@ -21,11 +21,14 @@ export async function falRun({
   id = "fal-ai/flux/dev",
   prompt,
   imageSize = "landscape_16_9",
-  numInferenceSteps = 4,
+  numInferenceSteps,
   numImages = 1,
-  enableSafetyChecker = false,
+  enableSafetyChecker = true,
   seed,
   syncMode,
+  imageUrl,
+  guidanceScale,
+  strength,
   apiKey,
 }: {
   id: string;
@@ -42,6 +45,9 @@ export async function falRun({
   enableSafetyChecker?: boolean;
   seed?: number;
   syncMode?: boolean;
+  imageUrl?: string;
+  guidanceScale?: number;
+  strength?: number;
   apiKey?: string;
 }) {
   if (!prompt) {
@@ -60,6 +66,9 @@ export async function falRun({
         seed,
         num_images: numImages,
         enable_safety_checker: enableSafetyChecker,
+        image_url: imageUrl,
+        guidance_scale: guidanceScale,
+        strength: strength,
       },
     });
 

@@ -1,6 +1,6 @@
 {
   "name": "@restackio/integrations-twilio",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "dist/service.js",
   "types": "dist/service.d.ts",
   "scripts": {
