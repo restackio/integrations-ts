@@ -1,4 +1,4 @@
-import { FunctionFailure, log } from "@restackio/restack-sdk-ts/function";
+import { FunctionFailure, log } from "@restackio/ai/function";
 import { Buffer } from "node:buffer";
 import { deepgramClient } from "../utils/client";
 import { SpeakSchema } from "@deepgram/sdk";

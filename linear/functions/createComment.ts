@@ -1,4 +1,4 @@
-import { FunctionFailure, log } from "@restackio/restack-sdk-ts/function";
+import { FunctionFailure, log } from "@restackio/ai/function";
 import { CommentCreateInput } from "@linear/sdk/dist/_generated_documents";
 import { linearClient } from "../utils/client";
 

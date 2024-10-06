@@ -1,4 +1,4 @@
-import { FunctionFailure, log } from "@restackio/restack-sdk-ts/function";
+import { FunctionFailure, log } from "@restackio/ai/function";
 import { ElevenLabs } from "elevenlabs/index";
 
 import { elevenlabsClient } from "../utils/client";

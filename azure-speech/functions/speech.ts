@@ -1,4 +1,4 @@
-import { FunctionFailure, log } from "@restackio/restack-sdk-ts/function";
+import { FunctionFailure, log } from "@restackio/ai/function";
 import { azureSpeechClient } from "../utils/client";
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 import { Buffer } from "node:buffer";

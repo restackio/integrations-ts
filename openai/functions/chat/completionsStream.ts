@@ -1,8 +1,8 @@
 import OpenAI from "openai/index";
 import { ChatCompletionChunk } from "openai/resources/chat/completions";
 
-import Restack from "@restackio/restack-sdk-ts";
-import { currentWorkflow, log } from "@restackio/restack-sdk-ts/function";
+import Restack from "@restackio/ai";
+import { currentWorkflow, log } from "@restackio/ai/function";
 
 import { StreamEvent, ToolCallEvent } from "../../types/events";
 
@@ -10,7 +10,7 @@ import { aggregateStreamChunks } from "../../utils/aggregateStream";
 import { mergeToolCalls } from "../../utils/mergeToolCalls";
 import { openaiClient } from "../../utils/client";
 import { openaiCost, Price } from "../../utils/cost";
-import { SendWorkflowEvent } from "@restackio/restack-sdk-ts/event";
+import { SendWorkflowEvent } from "@restackio/ai/event";
 import { ChatModel } from "openai/resources/index";
 
 export async function openaiChatCompletionsStream({

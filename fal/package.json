@@ -10,7 +10,7 @@
     "build": "npm run clean && tsc"
   },
   "dependencies": {
-    "@fal-ai/serverless-client": "^0.14.2"
+    "@fal-ai/serverless-client": "^0.14.3"
   },
   "files": [
     "dist"

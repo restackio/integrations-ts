@@ -1,4 +1,4 @@
-import Restack, { ServiceInput } from "@restackio/restack-sdk-ts";
+import Restack, { ServiceInput } from "@restackio/ai";
 import { elevenlabsConvert } from "./functions";
 import { elevenlabsTaskQueue } from "./taskQueue";
 

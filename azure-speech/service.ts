@@ -1,5 +1,5 @@
-import Restack, { ServiceInput } from "@restackio/restack-sdk-ts";
-import { rpmToSecond } from "@restackio/restack-sdk-ts/utils";
+import Restack, { ServiceInput } from "@restackio/ai";
+import { rpmToSecond } from "@restackio/ai/utils";
 import { azureSpeech } from "./functions";
 import { azureSpeechTaskQueue } from "./taskQueue";
 

@@ -1,6 +1,6 @@
 import WebSocket from "ws";
 import "dotenv/config";
-import { FunctionFailure } from "@restackio/restack-sdk-ts/function";
+import { FunctionFailure } from "@restackio/ai/function";
 
 export function websocketConnect({
   address = process.env.WEBSOCKET_ADDRESS,
