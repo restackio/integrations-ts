@@ -1,4 +1,4 @@
-import { FunctionFailure } from "@restackio/restack-sdk-ts/function";
+import { FunctionFailure } from "@restackio/ai/function";
 import { CallListInstanceCreateOptions } from "twilio/lib/rest/api/v2010/account/call";
 import { twilioClient } from "../utils/client";
 

@@ -1,4 +1,4 @@
-import Restack, { ServiceInput } from "@restackio/restack-sdk-ts";
+import Restack, { ServiceInput } from "@restackio/ai";
 import { websocketListen, websocketSend } from "./functions";
 import { websocketTaskQueue } from "./taskQueue";
 

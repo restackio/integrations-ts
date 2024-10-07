@@ -1,6 +1,6 @@
 import LumaAI from "lumaai";
 import "dotenv/config";
-import { FunctionFailure } from "@restackio/restack-sdk-ts/function"; // Import FunctionFailure
+import { FunctionFailure } from "@restackio/ai/function"; // Import FunctionFailure
 
 let clientLumaai: LumaAI;
 

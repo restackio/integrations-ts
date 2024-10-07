@@ -1,11 +1,7 @@
-import {
-  heartbeat,
-  currentWorkflow,
-  log,
-} from "@restackio/restack-sdk-ts/function";
+import { heartbeat, currentWorkflow, log } from "@restackio/ai/function";
 import { websocketConnect } from "../utils/client";
-import Restack from "@restackio/restack-sdk-ts";
-import { SendWorkflowEvent } from "@restackio/restack-sdk-ts/event";
+import Restack from "@restackio/ai";
+import { SendWorkflowEvent } from "@restackio/ai/event";
 
 export async function websocketListen({
   streamSid,

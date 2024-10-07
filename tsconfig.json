@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@restackio/restack-sdk-ts": ["node_modules/@restackio/restack-sdk-ts"]
+      "@restackio/ai": ["node_modules/@restackio/ai"]
     }
   },
   "include": ["**/*.ts"],

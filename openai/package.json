@@ -10,31 +10,31 @@
     "build": "npm run clean && tsc"
   },
   "dependencies": {
-    "openai": "^4.60.1"
+    "openai": "^4.67.1"
   },
   "files": [
     "dist"
   ],
   "exports": {
     ".": {
-        "import": "./dist/service.js",
-        "require": "./dist/service.js",
-        "types": "./dist/service.d.ts"
+      "import": "./dist/service.js",
+      "require": "./dist/service.js",
+      "types": "./dist/service.d.ts"
     },
     "./taskQueue": {
-        "import": "./dist/taskQueue.js",
-        "require": "./dist/taskQueue.js",
-        "types": "./dist/taskQueue.d.ts"
+      "import": "./dist/taskQueue.js",
+      "require": "./dist/taskQueue.js",
+      "types": "./dist/taskQueue.d.ts"
     },
     "./functions": {
-        "import": "./dist/functions/index.js",
-        "require": "./dist/functions/index.js",
-        "types": "./dist/functions/index.ts"
+      "import": "./dist/functions/index.js",
+      "require": "./dist/functions/index.js",
+      "types": "./dist/functions/index.ts"
     },
     "./workflows": {
-        "import": "./dist/workflows/index.js",
-        "require": "./dist/workflows/index.js",
-        "types": "./dist/workflows/index.ts"
+      "import": "./dist/workflows/index.js",
+      "require": "./dist/workflows/index.js",
+      "types": "./dist/workflows/index.ts"
     },
     "./types": {
       "import": "./dist/types/index.js",

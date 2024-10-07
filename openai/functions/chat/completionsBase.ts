@@ -1,4 +1,4 @@
-import { FunctionFailure, log } from "@restackio/restack-sdk-ts/function";
+import { FunctionFailure, log } from "@restackio/ai/function";
 import { ChatCompletionCreateParamsNonStreaming } from "openai/resources/chat/completions";
 import { openaiClient } from "../../utils/client";
 import { openaiCost, Price } from "../../utils/cost";
