@@ -25,11 +25,19 @@ LUMAAI_API_KEY=your_lumaai_api_key_here
 To start the LumaAI service, use the following code:
 
 ```typescript
+// services.ts
 import Restack from "@restackio/ai";
 import { lumaaiService } from "@restackio/integrations-lumaai";
-const client = new Restack();
-lumaaiService({ client }).catch((err) => {
- console.error("Error starting LumaAI service:", err);
+
+export async function services() {
+  const client = new Restack();
+  lumaaiService({ client }).catch((err) => {
+    console.error("Error starting LumaAI service:", err);
+  });
+}
+
+services().catch((err) => {
+  console.error("Error running services:", err);
 });
 ```
 
@@ -44,30 +52,55 @@ This integration provides the following functions:
 #### Generate Content
 
 ```typescript
-import { lumaaiGenerate } from "@restackio/integrations-lumaai/functions";
-const result = await lumaaiGenerate({
- prompt: "A futuristic cityscape",
- aspectRatio: "16:9",
- loop: false,
- apiKey: "your_api_key" // Optional if set in environment variables
-});
+// generateContent.ts
+import { log, step } from "@restackio/workflow";
+import * as lumaaiFunctions from "@restackio/integrations-lumaai/functions";
+import { lumaaiTaskQueue } from "@restackio/integrations-lumaai/taskQueue";
+
+export async function generateContentWorkflow() {
+  const result = await step<typeof lumaaiFunctions>({
+    taskQueue: lumaaiTaskQueue,
+  }).lumaaiGenerate({
+    prompt: "A futuristic cityscape",
+    aspectRatio: "16:9",
+    loop: false,
+    apiKey: "your_api_key", // Optional if set in environment variables
+  });
+}
 ```
 
 #### Get Generation
 
 ```typescript
-import { lumaaiGetGeneration } from "@restackio/integrations-lumaai/functions";
-const result = await lumaaiGetGeneration({
- generationId: "generation_id_here",
- apiKey: "your_api_key" // Optional if set in environment variables
-});
+// getGeneration.ts
+import { log, step } from "@restackio/workflow";
+import * as lumaaiFunctions from "@restackio/integrations-lumaai/functions";
+import { lumaaiTaskQueue } from "@restackio/integrations-lumaai/taskQueue";
+
+export async function getGenerationWorkflow() {
+  const result = await step<typeof lumaaiFunctions>({
+    taskQueue: lumaaiTaskQueue,
+  }).lumaaiGetGeneration({
+    generationId: "generation_id_here",
+    apiKey: "your_api_key", // Optional if set in environment variables
+  });
+}
 ```
 
 #### List Generations
 
 ```typescript
-import { lumaaiListGenerations } from "@restackio/integrations-lumaai/functions";
-const result = await lumaaiListGenerations({
- apiKey: "your_api_key" // Optional if set in environment variables
-});
+// listGenerations.ts
+
+import { log, step } from "@restackio/workflow";
+import * as lumaaiFunctions from "@restackio/integrations-lumaai/functions";
+import { lumaaiTaskQueue } from "@restackio/integrations-lumaai/taskQueue";
+
+export async function listGenerationsWorkflow() {
+  const result = await step<typeof lumaaiFunctions>({
+    taskQueue: lumaaiTaskQueue,
+  }).lumaaiListGenerations({
+    apiKey: "your_api_key", // Optional if set in environment variables
+  });
+}
 ```

@@ -23,14 +23,19 @@ npm install @restackio/integrations-openai
 ### Basic Setup
 
 ```typescript
+// services.ts
 import Restack from "@restackio/ai";
 import { openaiService } from "@restackio/integrations-openai";
-const client = new Restack();
-await openaiService({
-  client,
-  options: {
-  rateLimit: rpmToSecond(10000)
-  }
+
+export async function services() {
+  const client = new Restack();
+  openaiService({ client, options: { rateLimit: 1000 } }).catch((err) => {
+    console.error("Error starting OpenAi service:", err);
+  });
+}
+
+services().catch((err) => {
+  console.error("Error running services:", err);
 });
 ```
 
@@ -39,27 +44,45 @@ await openaiService({
 For basic chat completions:
 
 ```typescript
-import { openaiChatCompletionsBase } from "@restackio/integrations-openai/functions";
-const response = await openaiChatCompletionsBase({
-  userContent: "Hello, how are you?",
-  model: "gpt-4",
-  apiKey: "your-api-key-here"
-});
+// openaiChatCompletionsBase.ts
+
+import { log, step } from "@restackio/ai/workflow";
+import * as openaiFunctions from "@restackio/integrations-openai/functions";
+import { openaiTaskQueue } from "@restackio/integrations-openai/taskQueue";
+
+export async function openaiChatCompletionsBaseWorkflow() {
+  const response = await step<typeof openaiFunctions>({
+    taskQueue: openaiTaskQueue,
+  }).openaiChatCompletionsBase({
+    userContent: "Hello, how are you?",
+    model: "gpt-4",
+    apiKey: "your-api-key-here",
+  });
+}
 ```
 
 For streaming chat completions:
 
 ```typescript
-import { openaiChatCompletionsStream } from "@restackio/integrations-openai/functions";
-const response = await openaiChatCompletionsStream({
-   newMessage: "Tell me a story",
-   model: "gpt-4",
-   streamAtCharacter: ".",
-   streamEvent: {
-   workflowEventName: "story_chunk"
-   },
-   apiKey: "your-api-key-here"
-});
+// streamingChatCompletions.ts
+
+import { log, step } from "@restackio/ai/workflow";
+import * as openaiFunctions from "@restackio/integrations-openai/functions";
+import { openaiTaskQueue } from "@restackio/integrations-openai/taskQueue";
+
+export async function streamingChatsCompletionsWorkflow() {
+  const response = await step<typeof openaiFunctions>({
+    taskQueue: openaiTaskQueue,
+  }).openaiChatCompletionsStream({
+    newMessage: "Tell me a story",
+    model: "gpt-4",
+    streamAtCharacter: ".",
+    streamEvent: {
+      workflowEventName: "story_chunk",
+    },
+    apiKey: "your-api-key-here",
+  });
+}
 ```
 
 ## Configuration

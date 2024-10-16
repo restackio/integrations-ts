@@ -17,35 +17,52 @@ npm install @restackio/integrations-twilio
 To use the Twilio integration, you need to set up the Twilio service in your application:
 
 ```typescript
+// services.ts
 import Restack from "@restackio/ai";
 import { twilioService } from "@restackio/integrations-twilio";
-const client = new Restack();
-twilioService({
-   client,
-   options: {
-   rateLimit: 1, // Adjust as needed
-},
-}).catch((err) => {
-  console.error("Error starting Twilio service:", err);
+
+export async function services() {
+  const client = new Restack();
+  twilioService({
+    client,
+    options: {
+      rateLimit: 1, // Adjust as needed
+    },
+  }).catch((err) => {
+    console.error("Error starting Twilio service:", err);
+  });
+}
+
+services().catch((err) => {
+  console.error("Error running services:", err);
 });
 ```
 
 ### Making a Twilio Call
 
-You can use the `twilioCall` function to initiate a call:
+You can use the `twilioCall` function to initiate a call inside one of your workflows:
 
 ```typescript
-import { twilioCall } from "@restackio/integrations-twilio/functions";
-const result = await twilioCall({
-   accountSid: "YOUR_ACCOUNT_SID",
-   authToken: "YOUR_AUTH_TOKEN",
-   options: {
-   to: "+1234567890",
-   from: "+0987654321",
-   url: "http://example.com/twiml",
-   },
-});
-console.log("Call SID:", result.sid);
+// twilioCall.ts
+
+import { log, step } from "@restackio/ai/workflow";
+import * as twilioFunctions from "@restackio/integrations-twilio/functions";
+import { twilioTaskQueue } from "@restackio/integrations-twilio/taskQueue";
+
+export async function twilioCallWorkflow() {
+  const result = await step<typeof twilioFunctions>({
+    taskQueue: twilioTaskQueue,
+  }).twilioCall({
+    accountSid: "YOUR_ACCOUNT_SID",
+    authToken: "YOUR_AUTH_TOKEN",
+    options: {
+      to: "+1234567890",
+      from: "+0987654321",
+      url: "http://example.com/twiml",
+    },
+  });
+  log("Call SID:", result.sid);
+}
 ```
 
 ## Configuration
@@ -60,7 +77,6 @@ You can also pass these credentials directly to the `twilioCall` function if nee
 ## Available Functions
 
 - `twilioCall`: Initiates a Twilio call
-
 
 ## Task Queue
 
