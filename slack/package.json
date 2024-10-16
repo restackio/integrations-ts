@@ -10,7 +10,8 @@
     "build": "npm run clean && tsc"
   },
   "dependencies": {
-    "@slack/web-api": "^7.6.0"
+    "@slack/web-api": "^7.6.0",
+    "dotenv": "^16.4.5"
   },
   "files": [
     "dist"
