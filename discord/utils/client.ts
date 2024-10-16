@@ -1,22 +1,22 @@
-const discord_api_version = '10';
-const discord_base_url = `https://discord.com/api/v${discord_api_version}`;
+const DISCORD_API_VERSION = '10';
+const DISCORD_BASE_URL = `https://discord.com/api/v${DISCORD_API_VERSION}`;
 export class DiscordClient {
-    private bot_token: string;
+    private botToken: string;
     constructor(
-        bot_token: string = process.env.DISCORD_BOT_TOKEN
+        botToken: string = process.env.DISCORD_BOT_TOKEN
     ){
-        this.bot_token = bot_token;
+        this.botToken = botToken;
     }
 
     public post_message(message: string, channel_id: string) {
-        const message_url = `/channels/${channel_id}/messages`
-        const url = discord_base_url + message_url;
+        const messageUrl = `/channels/${channel_id}/messages`
+        const url = DISCORD_BASE_URL + messageUrl;
         const body = {
             'content': message
         }
         const headers = {
             'Content-Type': 'application/json',
-            'Authorization': `Bot ${this.bot_token}`
+            'Authorization': `Bot ${this.botToken}`
         }
         const options = {
             'method': 'POST',
