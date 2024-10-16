@@ -30,28 +30,46 @@ AZURE_SPEECH_REGION=your_azure_speech_region
 To start the Azure Speech service, use the `azureSpeechService` function:
 
 ```typescript
+// services.ts
 import Restack from "@restackio/ai";
 import { azureSpeechService } from "@restackio/integrations-azurespeech";
-const client = new Restack();
-azureSpeechService({ client }).catch((err) => {
+
+export async function services() {
+  const client = new Restack();
+  azureSpeechService({ client }).catch((err) => {
     console.error("Error starting Azure Speech service:", err);
+  });
+}
+
+services().catch((err) => {
+  console.error("Error running services:", err);
 });
 ```
 
 ### Using the Azure Speech Function
 
-The main function provided by this integration is `azureSpeech`. Here's how to use it:
+The main function provided by this integration is `azureSpeech`. Here's how to use it inside a workflow as part of one of its steps:
 
 ```typescript
-import { azureSpeech } from "@restackio/integrations-azurespeech/functions";
-const result = await azureSpeech({
-  text: "Hello, world!",
-  config: {
-  voiceName: "en-US-DavisNeural",
-  format: sdk.SpeechSynthesisOutputFormat.Audio16Khz32KBitRateMonoMp3,
-},
-  apiKey: "your_azure_speech_api_key", // Optional if set in environment variables
-  region: "your_azure_speech_region", // Optional if set in environment variables
-});
-console.log(result.media.payload); // Base64 encoded audio data
+/// workflows/createRelease.ts
+
+import { log, step } from "@restackio/ai/workflow";
+import * as azureFunctions from "@restackio/integrations-azurespeech/functions";
+import { azureSpeechTaskQueue } from "@restackio/integrations-azurespeech/taskQueue";
+
+export async function azureSpeechWorkflow() {
+  const result = await step<typeof azureFunctions>({
+    taskQueue: azureSpeechTaskQueue,
+  }).azureSpeech({
+    text: "Hello, world!",
+    config: {
+      voiceName: "en-US-DavisNeural",
+      format: sdk.SpeechSynthesisOutputFormat.Audio16Khz32KBitRateMonoMp3,
+    },
+    apiKey: "your_azure_speech_api_key", // Optional if set in environment variables
+    region: "your_azure_speech_region", // Optional if set in environment variables
+  });
+  log(result.media.payload); // Base64 encoded audio data
+  return result;
+}
 ```

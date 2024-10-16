@@ -21,23 +21,40 @@ Before using the Cartesia integration, make sure to set up your Cartesia API key
 To start the Cartesia service, use the `cartesiaService` function:
 
 ```typescript
+// services.ts
 import Restack from "@restackio/ai";
 import { cartesiaService } from "@restackio/integrations-cartesia";
-const client = new Restack();
-cartesiaService({ client }).catch((err) => {
-  console.error("Error starting Cartesia service:", err);
+
+export async function services() {
+  const client = new Restack();
+  cartesiaService({ client }).catch((err) => {
+    console.error("Error starting Cartesia service:", err);
+  });
+}
+
+services().catch((err) => {
+  console.error("Error running services:", err);
 });
 ```
 
 ### Text-to-Speech Function
 
-The package provides a Text-to-Speech function that converts text to audio bytes:
+The package provides a Text-to-Speech function that converts text to audio bytes: Here's how to use it inside a workflow as part of one of its steps:
 
 ```typescript
-import { cartesiaTtsBytes } from "@restackio/integrations-cartesia/functions";
-const result = await cartesiaTtsBytes({
-text: "Hello, world!",
- apiKey: "your-api-key" // Optional if CARTESIA_API_KEY is set in environment
-});
-console.log(result.media.payload); // Base64 encoded audio data
+// cartesiaSpeechToWorflow.ts
+import { log, step } from "@restackio/ai/workflow";
+import * as cartesiaFunctions from "@restackio/integrations-cartesia/functions";
+import { cartesiaTaskQueue } from "@restackio/integrations-cartesia/taskQueue";
+
+export async function cartesiaSpeechToTextWorkflow() {
+  const result = await step<typeof cartesiaFunctions>({
+    taskQueue: cartesiaTaskQueue,
+  }).cartesiaTtsBytes({
+    text: "Hello, world!",
+    apiKey: "your-api-key", // Optional if CARTESIA_API_KEY is set in environment
+  });
+  log(result.media.payload); // Base64 encoded audio data
+  return result;
+}
 ```
