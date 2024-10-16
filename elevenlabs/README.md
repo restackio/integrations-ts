@@ -51,7 +51,7 @@ export async function convertTextToSpeechWorkflow() {
     text: "Hello, world!",
     apiKey: "YOUR_ELEVENLABS_API_KEY",
   });
-  log(result.media.payload); // Base64 encoded audio
+  log.info("result", { result: result.media.payload }); // Base64 encoded audio
 }
 ```
 

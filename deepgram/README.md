@@ -67,7 +67,7 @@ export async function transcribeAudioWorkflow() {
       utterance_end_ms: 2000,
     },
   });
-  log(result.transcript);
+  log.info("result", { result: result.transcript });
 }
 ```
 
@@ -87,6 +87,6 @@ export async function deepgramSpeakWorkflow() {
       model: "aura-arcas-en",
     },
   });
-  log(result.media.payload); // Base64 encoded audio
+  log.info("result", { result: result.media.payload }); // Base64 encoded audio
 }
 ```

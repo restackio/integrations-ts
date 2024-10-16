@@ -69,7 +69,7 @@ export async function azureSpeechWorkflow() {
     apiKey: "your_azure_speech_api_key", // Optional if set in environment variables
     region: "your_azure_speech_region", // Optional if set in environment variables
   });
-  log(result.media.payload); // Base64 encoded audio data
+  log.info("result", { result: result.media.payload }); // Base64 encoded audio data
   return result;
 }
 ```

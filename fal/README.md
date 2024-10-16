@@ -57,6 +57,6 @@ export async function falRunWorkflow() {
     imageSize: "landscape_16_9",
     numImages: 1,
   });
-  log(result);
+  log.info("result", { result });
 }
 ```

@@ -54,7 +54,7 @@ export async function cartesiaSpeechToTextWorkflow() {
     text: "Hello, world!",
     apiKey: "your-api-key", // Optional if CARTESIA_API_KEY is set in environment
   });
-  log(result.media.payload); // Base64 encoded audio data
+  log.info("result", { result: result.media.payload }); // Base64 encoded audio data
   return result;
 }
 ```

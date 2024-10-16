@@ -40,7 +40,7 @@ To create an issue in Linear:
 ```typescript
 // createIssueWorflow.ts
 
-import { log, step } from "@restackio/ai/workflow";
+import { step } from "@restackio/ai/workflow";
 import * as linearFunctions from "@restackio/integrations-linear/functions";
 import { linearTaskQueue } from "@restackio/integrations-linear/taskQueue";
 

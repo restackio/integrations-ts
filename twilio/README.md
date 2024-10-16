@@ -61,7 +61,7 @@ export async function twilioCallWorkflow() {
       url: "http://example.com/twiml",
     },
   });
-  log("Call SID:", result.sid);
+  log.info("Call SID:", result.sid);
 }
 ```
 
