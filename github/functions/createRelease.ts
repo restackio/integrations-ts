@@ -13,7 +13,7 @@ export async function createRelease({
   repo: string;
   tagName: string;
   releaseName: string;
-  releaseBody: string;
+  releaseBody?: string;
   branch?: string;
   isDraft?: boolean;
 }) {
@@ -24,9 +24,9 @@ export async function createRelease({
       repo,
       tag_name: tagName,
       name: releaseName,
-      body: releaseBody,
       draft: isDraft,
       generate_release_notes: true,
+      ...(releaseBody && { body: releaseBody }),
       ...(branch && { target_commitish: branch }),
     });
 
