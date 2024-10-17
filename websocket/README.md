@@ -17,11 +17,19 @@ npm install @restackio/integrations-websocket
 To use the WebSocket service in your Restack application, import it as follows:
 
 ```typescript
-import { websocketService } from '@restackio/integrations-websocket';
-import Restack from '@restackio/ai';
-const client = new Restack();
-websocketService({ client }).catch((err) => {
- console.error("Error starting WebSocket service:", err);
+// services.ts
+import Restack from "@restackio/ai";
+import { websocketService } from "@restackio/integrations-websocket";
+
+export async function services() {
+  const client = new Restack();
+  websocketService({ client }).catch((err) => {
+    console.error("Error starting Websocket service:", err);
+  });
+}
+
+services().catch((err) => {
+  console.error("Error running services:", err);
 });
 ```
 
@@ -52,6 +60,6 @@ websocketListen({
 websocketSend({
   name: string,
   input: WebsocketEvent,
-  address?: string
-})
+  address: string,
+});
 ```

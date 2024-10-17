@@ -17,11 +17,19 @@ npm install @restackio/integrations-linear
 To use the Linear integration, you need to set up the Linear service:
 
 ```typescript
+// services.ts
 import Restack from "@restackio/ai";
 import { linearService } from "@restackio/integrations-linear";
-const client = new Restack();
-linearService({ client }).catch((err) => {
-  console.error("Error starting Linear service:", err);
+
+export async function services() {
+  const client = new Restack();
+  linearService({ client }).catch((err) => {
+    console.error("Error starting Linear service:", err);
+  });
+}
+
+services().catch((err) => {
+  console.error("Error running services:", err);
 });
 ```
 
@@ -30,15 +38,24 @@ linearService({ client }).catch((err) => {
 To create an issue in Linear:
 
 ```typescript
-import { linearCreateIssue } from "@restackio/integrations-linear/functions";
-const result = await linearCreateIssue({
-  issue: {
-  title: "New issue",
-  description: "This is a new issue created via the API",
-  teamId: "your-team-id",
-},
- apiKey: "your-linear-api-key",
-});
+// createIssueWorflow.ts
+
+import { step } from "@restackio/ai/workflow";
+import * as linearFunctions from "@restackio/integrations-linear/functions";
+import { linearTaskQueue } from "@restackio/integrations-linear/taskQueue";
+
+export async function createIssueWorkflow() {
+  const result = await step<typeof linearFunctions>({
+    taskQueue: linearTaskQueue,
+  }).linearCreateIssue({
+    issue: {
+      title: "New issue",
+      description: "This is a new issue created via the API",
+      teamId: "your-team-id",
+    },
+    apiKey: "your-linear-api-key",
+  });
+}
 ```
 
 ## Configuration

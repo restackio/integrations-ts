@@ -17,11 +17,19 @@ npm install @restackio/integrations-elevenlabs
 First, import the necessary modules and set up the ElevenLabs service:
 
 ```typescript
+// services.ts
 import Restack from "@restackio/ai";
 import { elevenlabsService } from "@restackio/integrations-elevenlabs";
-const client = new Restack();
-elevenlabsService({ client }).catch((err) => {
- console.error("Error starting ElevenLabs service:", err);
+
+export async function services() {
+  const client = new Restack();
+  elevenlabsService({ client }).catch((err) => {
+    console.error("Error starting ElevenLabs service:", err);
+  });
+}
+
+services().catch((err) => {
+  console.error("Error running services:", err);
 });
 ```
 
@@ -30,12 +38,21 @@ elevenlabsService({ client }).catch((err) => {
 To convert text to speech, use the `elevenlabsConvert` function:
 
 ```typescript
-import { elevenlabsConvert } from "@restackio/integrations-elevenlabs/functions";
-const result = await elevenlabsConvert({
-  text: "Hello, world!",
-  apiKey: "YOUR_ELEVENLABS_API_KEY",
-});
-console.log(result.media.payload); // Base64 encoded audio
+// convertTextToSpeech.ts
+
+import { log, step } from "@restackio/ai/workflow";
+import * as elevenLabsFunctions from "@restackio/integrations-elevenlabs/functions";
+import { elevenlabsTaskQueue } from "@restackio/integerations-elevenlabs/taskQueue";
+
+export async function convertTextToSpeechWorkflow() {
+  const result = await step<typeof elevenLabsFunctions>({
+    taskQueue: elevenlabsTaskQueue,
+  }).elevenlabsConvert({
+    text: "Hello, world!",
+    apiKey: "YOUR_ELEVENLABS_API_KEY",
+  });
+  log.info("result", { result: result.media.payload }); // Base64 encoded audio
+}
 ```
 
 ## Configuration
