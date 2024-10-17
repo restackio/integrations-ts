@@ -22,6 +22,8 @@ importers:
         specifier: ^4.9.5
         version: 4.9.5
 
+  azure-bing: {}
+
   azure-speech:
     dependencies:
       microsoft-cognitiveservices-speech-sdk:
