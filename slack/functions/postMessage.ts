@@ -3,7 +3,7 @@ import { WebAPICallResult } from "@slack/web-api";
 import type { AnyBlock } from "@slack/web-api";
 import { slackClient } from "../utils/client";
 
-export type PostMessageInput = {
+export type PostMessage = {
   blocks?: Array<AnyBlock>;
   conversationId: string;
   mrkdwn?: boolean;
@@ -23,7 +23,7 @@ export const postMessage = async ({
   mrkdwn = true,
   text,
   token,
-}: PostMessageInput): Promise<WebAPICallResult> => {
+}: PostMessage): Promise<WebAPICallResult> => {
   if (!conversationId) {
     throw new Error(`Missing 'conversationId' value`)
   }
