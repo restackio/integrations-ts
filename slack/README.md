@@ -57,6 +57,7 @@ import { postMessage } from "@restackio/integrations-slack/functions";
 const result = await postMessage({
   blocks, // optional
   conversationId: "your_conversation_id", // Can be a channel ID, a DM ID, a MPDM ID, or a group ID
+  mrkdwn, // defaults to true
   text: "Hello World!",
   token: "your_slack_bot_user_oauth_token", // Optional if set in environment variables
 });
