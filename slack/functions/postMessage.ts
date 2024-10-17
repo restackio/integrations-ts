@@ -6,6 +6,7 @@ import { slackClient } from "../utils/client";
 export type PostMessageInput = {
   blocks?: Array<AnyBlock>;
   conversationId: string;
+  mrkdwn?: boolean;
   text: string;
   token?: string;
 };
@@ -19,6 +20,7 @@ export type PostMessageInput = {
 export const postMessage = async ({
   blocks,
   conversationId,
+  mrkdwn = true,
   text,
   token,
 }: PostMessageInput): Promise<WebAPICallResult> => {
@@ -37,6 +39,7 @@ export const postMessage = async ({
       const response = await slack.chat.postMessage({
         blocks,
         channel: conversationId,
+        mrkdwn,
         text,
       });
 
