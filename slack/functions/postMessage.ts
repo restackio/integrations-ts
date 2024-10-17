@@ -18,13 +18,13 @@ export type PostMessage = {
  * @see {@link https://api.slack.com/surfaces/messages#conversations}
  * @see {@link https://api.slack.com/surfaces/messages#payloads}
  */
-export const postMessage = async ({
+export async function postMessage({
   blocks,
   conversationId,
   mrkdwn = true,
   text,
   token,
-}: PostMessage): Promise<WebAPICallResult> => {
+}: PostMessage): Promise<WebAPICallResult> {
   if (!conversationId) {
     throw new Error(`Missing 'conversationId' value`)
   }
