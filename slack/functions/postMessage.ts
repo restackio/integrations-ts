@@ -3,26 +3,36 @@ import { WebAPICallResult } from "@slack/web-api";
 import type { AnyBlock } from "@slack/web-api";
 import { slackClient } from "../utils/client";
 
+export type PostMessageInput = {
+  blocks?: Array<AnyBlock>;
+  conversationId: string;
+  text: string;
+  token?: string;
+};
+
 /**
  * Post message to conversations
  *
  * @see {@link https://api.slack.com/methods/chat.postMessage}
  * @see {@link https://api.slack.com/surfaces/messages#conversations}
  */
-export async function postMessage({
+export const postMessage = async ({
   blocks,
   conversationId,
   text,
-  token
-}: {
-  blocks?: Array<AnyBlock>;
-  conversationId: string;
-  text: string;
-  token?: string;
-}): Promise<WebAPICallResult > {
+  token,
+}: PostMessageInput): Promise<WebAPICallResult> => {
+  if (!conversationId) {
+    throw new Error(`Missing 'conversationId' value`)
+  }
+
+  if (!text) {
+    throw new Error(`Missing 'text' value`)
+  }
+
   try {
     return new Promise(async (resolve) => {
-      const slack = slackClient({token});
+      const slack = slackClient({ token });
 
       const response = await slack.chat.postMessage({
         blocks,
