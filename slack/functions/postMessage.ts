@@ -34,18 +34,17 @@ export async function postMessage({
   }
 
   try {
-    return new Promise(async (resolve) => {
-      const slack = slackClient({ token });
+    const slack = slackClient({ token });
 
-      const response = await slack.chat.postMessage({
-        blocks,
-        channel: conversationId,
-        mrkdwn,
-        text,
-      });
-
-      resolve(response);
+    const response = await slack.chat.postMessage({
+      blocks,
+      channel: conversationId,
+      mrkdwn,
+      text,
     });
+
+    return response;
+
   } catch (error) {
     log.error("Slack Post Message error", { error });
     throw new Error(`Slack Post Message error ${error}`);
