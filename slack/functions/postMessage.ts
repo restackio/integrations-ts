@@ -16,6 +16,7 @@ export type PostMessage = {
  *
  * @see {@link https://api.slack.com/methods/chat.postMessage}
  * @see {@link https://api.slack.com/surfaces/messages#conversations}
+ * @see {@link https://api.slack.com/surfaces/messages#payloads}
  */
 export const postMessage = async ({
   blocks,
