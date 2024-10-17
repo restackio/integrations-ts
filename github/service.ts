@@ -5,6 +5,7 @@ import {
   createRelease,
   getReleases,
   publishRelease,
+  getLatestRelease,
 } from "./functions/index.js";
 
 export async function githubService({
@@ -18,7 +19,12 @@ export async function githubService({
 }) {
   await client.startService({
     taskQueue: githubTaskQueue,
-    functions: { createRelease, getReleases, publishRelease },
+    functions: {
+      createRelease,
+      getReleases,
+      publishRelease,
+      getLatestRelease,
+    },
     options,
   });
 }

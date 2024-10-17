@@ -1,6 +1,6 @@
 {
   "name": "@restackio/integrations-github",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "main": "dist/service.js",
   "types": "dist/service.d.ts",
   "scripts": {
